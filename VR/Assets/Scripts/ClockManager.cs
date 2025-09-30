@@ -59,15 +59,12 @@ public class ClockManager : MonoBehaviour
                 yield return new WaitForSeconds(interval);
                 inTempo = false;
             }
-
+            OnLoopComplete?.Invoke();
             for (int i = 0; i < total; i++)
             {
                 SetAlpha(images[i], 0);
             }
-
             yield return new WaitForSeconds(interval);
-            
-            OnLoopComplete?.Invoke();
         }
     }
 

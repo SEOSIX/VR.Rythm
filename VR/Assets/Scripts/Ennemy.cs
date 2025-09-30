@@ -11,8 +11,12 @@ public class Ennemy : MonoBehaviour, IEnnemy
     [SerializeField] private AudioSource Scream;
     [SerializeField] private Slider progressBar;
 
-    private int loopsToWait; 
-    private int currentLoops;
+    [SerializeField] private Transform startPoint;
+    [SerializeField] private Transform endPoint;
+
+    private int loopsToWait;  
+    private int currentLoops; 
+    private bool isStopped = false;
 
     void Awake()
     {
@@ -32,28 +36,54 @@ public class Ennemy : MonoBehaviour, IEnnemy
 
     private void OnLoopComplete()
     {
+        if (isStopped) return;
+
         currentLoops++;
         if (currentLoops >= loopsToWait)
         {
-            Walknig(1f);
-            SetNewRandomLoops(); 
+            Walknig(0.1f); 
+            SetNewRandomLoops();
         }
     }
 
     private void SetNewRandomLoops()
     {
         currentLoops = 0;
-        loopsToWait = Random.Range(2, 2);
+        loopsToWait = Random.Range(2, 2); 
     }
 
-    public void Walknig(float speed)
+    public void Walknig(float progressAmount)
     {
-        progressBar.value += 0.1f;
+        progressBar.value = Mathf.Clamp01(progressBar.value + progressAmount);
+        if (startPoint != null && endPoint != null)
+        {
+            transform.position = Vector3.Lerp(
+                startPoint.position,
+                endPoint.position,
+                progressBar.value
+            );
+        }
+        if (progressBar.value <= 0f)
+        {
+            Attacking();
+        }
     }
+    
     public void Stop(int timeToStop)
     {
-        //arrète sa course pour x time
+        if (!isStopped)
+        {
+            StartCoroutine(StopRoutine(timeToStop));
+        }
     }
+
+    private System.Collections.IEnumerator StopRoutine(int duration)
+    {
+        isStopped = true;
+        yield return new WaitForSeconds(duration);
+        isStopped = false;
+    }
+
 
     public void Attacking()
     {
@@ -66,9 +96,16 @@ public class Ennemy : MonoBehaviour, IEnnemy
 
     public void ReturnFromStart()
     {
-        progressBar.value = 0; 
+        progressBar.value = 0;
+        ResetPosition();
         SetNewRandomLoops();
-        
-        //reset la position de l'ennemi dans la scene, efface sa progression
+    }
+    
+    private void ResetPosition()
+    {
+        if (startPoint != null)
+        {
+            transform.position = startPoint.position;
+        }
     }
 }
