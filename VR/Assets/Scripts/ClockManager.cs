@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,6 +13,8 @@ public class ClockManager : MonoBehaviour
 
     
     private bool inTempo = false;
+    
+    public static event Action OnLoopComplete;
 
     void Awake()
     {
@@ -63,6 +66,8 @@ public class ClockManager : MonoBehaviour
             }
 
             yield return new WaitForSeconds(interval);
+            
+            OnLoopComplete?.Invoke();
         }
     }
 
