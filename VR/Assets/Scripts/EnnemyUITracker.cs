@@ -1,39 +1,33 @@
 using UnityEngine;
 
-public class EnnemyUITracker : MonoBehaviour
+public class EnemyUITracker : MonoBehaviour
 {
-    [SerializeField] private Ennemy ennemy;           // Ennemi à suivre
-    [SerializeField] private RectTransform mapImage;  // Image fixe représentant le chemin
-    [SerializeField] private RectTransform icon;      // Icône qui bouge sur l'image
-    [SerializeField] private Vector2 mapWorldSize;    // Taille réelle du terrain représenté sur l'image UI
+    public RectTransform playerInMap;
+    public RectTransform map2dEnd;
+    public Transform map3dParent;
+    public Transform map3dEnd;
 
-    private Vector3 previousWorldPos;
+    private Vector3 normalized, mapped;
 
-    void Start()
+    private void Update()
     {
-        if (ennemy != null)
-            previousWorldPos = ennemy.transform.position; // Mémorise la position initiale
+        normalized = Divide(
+            map3dParent.InverseTransformPoint(this.transform.position),
+            map3dEnd.position - map3dParent.position
+        );
+        normalized.y = normalized.z;
+        mapped = Multiply(normalized, map2dEnd.localPosition);
+        mapped.z = 0;
+        playerInMap.localPosition = mapped;
     }
 
-    void Update()
+    private static Vector3 Divide(Vector3 a, Vector3 b)
     {
-        if (ennemy == null || icon == null || mapImage == null)
-            return;
+        return new Vector3(a.x / b.x, a.y / b.y, a.z / b.z);
+    }
 
-        // Calcul du delta de mouvement de l'ennemi
-        Vector3 currentWorldPos = ennemy.transform.position;
-        Vector3 deltaWorld = currentWorldPos - previousWorldPos;
-
-        // Conversion du delta en UI
-        Vector2 deltaUI = new Vector2(
-            deltaWorld.x / mapWorldSize.x * mapImage.rect.width,
-            deltaWorld.z / mapWorldSize.y * mapImage.rect.height // z si top-down
-        );
-
-        // Ajout du delta à l'icône
-        icon.anchoredPosition += deltaUI;
-
-        // Mise à jour de la position précédente
-        previousWorldPos = currentWorldPos;
+    private static Vector3 Multiply(Vector3 a, Vector3 b)
+    {
+        return new Vector3(a.x * b.x, a.y * b.y, a.z * b.z);
     }
 }
