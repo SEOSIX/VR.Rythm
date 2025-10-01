@@ -1,35 +1,57 @@
-using DefaultNamespace;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using DefaultNamespace;
 
 public class Ennemy : MonoBehaviour, IEnnemy
 {
-    
-    public static Ennemy instance;
+    public static Ennemy instance { get; private set; }
 
-    [SerializeField] private string Name;
-    [SerializeField] private AudioSource Scream;
+    [Header("Settings")]
+    [SerializeField] private string enemyName;
+    [SerializeField] private AudioSource scream;
     [SerializeField] private Slider progressBar;
 
-    [SerializeField] private Transform startPoint;
-    [SerializeField] private Transform endPoint;
+    [Header("Path")]
+    [SerializeField] private Transform[] pathPoints;
 
-    private int loopsToWait;  
-    private int currentLoops; 
+    private int loopsToWait;
+    private int currentLoops;
     private bool isStopped = false;
 
-    void Awake()
+    private Vector3 lastPosition;
+    private bool isMoving;
+
+    private void Awake()
     {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
         instance = this;
     }
 
-    void OnEnable()
+    private void Update()
+    {
+        if (transform.position != lastPosition)
+        {
+            isMoving = true;
+            lastPosition = transform.position;
+        }
+        else
+        {
+            isMoving = false;
+        }
+    }
+
+    private void OnEnable()
     {
         ClockManager.OnLoopComplete += OnLoopComplete;
         SetNewRandomLoops();
     }
 
-    void OnDisable()
+    private void OnDisable()
     {
         ClockManager.OnLoopComplete -= OnLoopComplete;
     }
@@ -41,7 +63,7 @@ public class Ennemy : MonoBehaviour, IEnnemy
         currentLoops++;
         if (currentLoops >= loopsToWait)
         {
-            Walknig(0.1f); 
+            Walknig(0.1f);
             SetNewRandomLoops();
         }
     }
@@ -49,26 +71,43 @@ public class Ennemy : MonoBehaviour, IEnnemy
     private void SetNewRandomLoops()
     {
         currentLoops = 0;
-        loopsToWait = Random.Range(2, 2); 
+        int chance = 5;
+        if (UnityEngine.Random.Range(0, 100) < chance)
+        {
+            loopsToWait = 1;
+        }
+        else
+        {
+            loopsToWait = UnityEngine.Random.Range(2, 6);
+        }
+        Debug.Log($"{enemyName} attend {loopsToWait} loops avant de bouger.");
     }
 
-    public void Walknig(float progressAmount)
+    public void Walknig(float speed)
     {
-        progressBar.value = Mathf.Clamp01(progressBar.value + progressAmount);
-        if (startPoint != null && endPoint != null)
+        if (pathPoints == null || pathPoints.Length < 2) return;
+
+        progressBar.value = Mathf.Clamp01(progressBar.value + speed);
+
+        float pathProgress = progressBar.value * (pathPoints.Length - 1);
+        int segmentIndex = Mathf.FloorToInt(pathProgress);
+        float t = pathProgress - segmentIndex;
+
+        if (segmentIndex < pathPoints.Length - 1)
         {
-            transform.position = Vector3.Lerp(
-                startPoint.position,
-                endPoint.position,
-                progressBar.value
-            );
+            transform.position = Vector3.Lerp(pathPoints[segmentIndex].position, pathPoints[segmentIndex + 1].position, t);
         }
-        if (progressBar.value <= 0f)
+        else
+        {
+            transform.position = pathPoints[pathPoints.Length - 1].position;
+        }
+
+        if (progressBar.value >= 1f)
         {
             Attacking();
         }
     }
-    
+
     public void Stop(int timeToStop)
     {
         if (!isStopped)
@@ -77,21 +116,17 @@ public class Ennemy : MonoBehaviour, IEnnemy
         }
     }
 
-    private System.Collections.IEnumerator StopRoutine(int duration)
+    private IEnumerator StopRoutine(int duration)
     {
         isStopped = true;
         yield return new WaitForSeconds(duration);
         isStopped = false;
     }
 
-
     public void Attacking()
     {
-        if (progressBar.value <= 0f)
-        {
-            Debug.Log("GameOver");
-        }
-        //Une fois dans la pièce il peut attaquer le jouer et GameOver et screamer joué
+        Debug.Log("GameOver");
+        //if (scream != null) scream.Play();
     }
 
     public void ReturnFromStart()
@@ -100,12 +135,22 @@ public class Ennemy : MonoBehaviour, IEnnemy
         ResetPosition();
         SetNewRandomLoops();
     }
-    
+
     private void ResetPosition()
     {
-        if (startPoint != null)
+        if (pathPoints != null && pathPoints.Length > 0)
         {
-            transform.position = startPoint.position;
+            transform.position = pathPoints[0].position;
         }
+    }
+
+    public bool IsStopped()
+    {
+        return isStopped && !isMoving;
+    }
+
+    public bool IsWalking()
+    {
+        return isMoving && !isStopped;
     }
 }
