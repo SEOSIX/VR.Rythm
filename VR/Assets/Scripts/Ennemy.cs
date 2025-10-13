@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,7 +11,6 @@ public class Ennemy : MonoBehaviour, IEnnemy
     [Header("Settings")]
     [SerializeField] private string enemyName;
     [SerializeField] private AudioSource scream;
-    [SerializeField] private Slider progressBar;
 
     [Header("Path")]
     [SerializeField] private Transform[] pathPoints;
@@ -18,9 +18,13 @@ public class Ennemy : MonoBehaviour, IEnnemy
     private int loopsToWait;
     private int currentLoops;
     private bool isStopped = false;
+    [HideInInspector]
+    public float currentStopTime;
 
     private Vector3 lastPosition;
     private bool isMoving;
+    
+    private float progress = 0f;
 
     private void Awake()
     {
@@ -86,10 +90,9 @@ public class Ennemy : MonoBehaviour, IEnnemy
     public void Walknig(float speed)
     {
         if (pathPoints == null || pathPoints.Length < 2) return;
+        progress = Mathf.Clamp01(progress + speed);
 
-        progressBar.value = Mathf.Clamp01(progressBar.value + speed);
-
-        float pathProgress = progressBar.value * (pathPoints.Length - 1);
+        float pathProgress = progress * (pathPoints.Length - 1);
         int segmentIndex = Mathf.FloorToInt(pathProgress);
         float t = pathProgress - segmentIndex;
 
@@ -102,9 +105,20 @@ public class Ennemy : MonoBehaviour, IEnnemy
             transform.position = pathPoints[pathPoints.Length - 1].position;
         }
 
-        if (progressBar.value >= 1f)
+        if (progress >= 1f)
         {
             Attacking();
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Trap"))
+        {
+            for (int i = 0; i < TrapManager.instance.traps.Count; i++)
+            {
+             currentStopTime += TrapManager.instance.traps[i].TrapDuration;
+            }
         }
     }
 
@@ -113,10 +127,11 @@ public class Ennemy : MonoBehaviour, IEnnemy
         if (!isStopped)
         {
             StartCoroutine(StopRoutine(timeToStop));
+            currentStopTime = timeToStop;
         }
     }
 
-    private IEnumerator StopRoutine(int duration)
+    private IEnumerator StopRoutine(float duration)
     {
         isStopped = true;
         yield return new WaitForSeconds(duration);
@@ -126,12 +141,10 @@ public class Ennemy : MonoBehaviour, IEnnemy
     public void Attacking()
     {
         Debug.Log("GameOver");
-        //if (scream != null) scream.Play();
     }
 
     public void ReturnFromStart()
     {
-        progressBar.value = 0;
         ResetPosition();
         SetNewRandomLoops();
     }

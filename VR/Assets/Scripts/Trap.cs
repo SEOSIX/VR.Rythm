@@ -1,15 +1,34 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
-public class Trap : MonoBehaviour
+public abstract class Trap : MonoBehaviour
 {
     public string TramName;
-
-    public enum MyEnum
+    private enum Traps
     {
-        rap1,
-        trap2,
-        trap3,
+        wall,
+        Trap2,
+        Trap3
     }
-    public float TrapDuration;
+    [SerializeField] private Traps trap;
+    public int TrapDuration;
+
+
+    public virtual void ActivateTrap()
+    {
+        StartCoroutine(DurationEnded());
+    }
+
+    public virtual void TrapTriggered()
+    {
+        
+    }
+    private IEnumerator DurationEnded()
+    {
+        yield return new WaitForSeconds(TrapDuration);
+        OnDurationEnded(); 
+    }
+
+    public virtual void OnDurationEnded() {}
 }
