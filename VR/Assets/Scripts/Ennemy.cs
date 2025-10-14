@@ -1,30 +1,23 @@
-using System;
 using System.Collections;
-using UnityEngine;
-using UnityEngine.UI;
 using DefaultNamespace;
+using UnityEngine;
+using UnityEngine.AI;
 
 public class Ennemy : MonoBehaviour, IEnnemy
 {
     public static Ennemy instance { get; private set; }
 
     [Header("Settings")]
-    [SerializeField] private string enemyName;
+    public string enemyName;
     [SerializeField] private AudioSource scream;
 
-    [Header("Path")]
-    [SerializeField] private Transform[] pathPoints;
+    [Header("Navigation")]
+    [SerializeField] private Transform targetPoint;
+    private NavMeshAgent agent;
 
-    private int loopsToWait;
-    private int currentLoops;
     private bool isStopped = false;
-    [HideInInspector]
-    public float currentStopTime;
-
     private Vector3 lastPosition;
     private bool isMoving;
-    
-    private float progress = 0f;
 
     private void Awake()
     {
@@ -36,8 +29,17 @@ public class Ennemy : MonoBehaviour, IEnnemy
         instance = this;
     }
 
+    private void Start()
+    {
+        agent = GetComponent<NavMeshAgent>();
+    }
+
     private void Update()
     {
+        if (agent != null && targetPoint != null && !isStopped)
+        {
+            agent.SetDestination(targetPoint.position);
+        }
         if (transform.position != lastPosition)
         {
             isMoving = true;
@@ -47,65 +49,7 @@ public class Ennemy : MonoBehaviour, IEnnemy
         {
             isMoving = false;
         }
-    }
-
-    private void OnEnable()
-    {
-        ClockManager.OnLoopComplete += OnLoopComplete;
-        SetNewRandomLoops();
-    }
-
-    private void OnDisable()
-    {
-        ClockManager.OnLoopComplete -= OnLoopComplete;
-    }
-
-    private void OnLoopComplete()
-    {
-        if (isStopped) return;
-
-        currentLoops++;
-        if (currentLoops >= loopsToWait)
-        {
-            Walknig(0.1f);
-            SetNewRandomLoops();
-        }
-    }
-
-    private void SetNewRandomLoops()
-    {
-        currentLoops = 0;
-        int chance = 5;
-        if (UnityEngine.Random.Range(0, 100) < chance)
-        {
-            loopsToWait = 1;
-        }
-        else
-        {
-            loopsToWait = UnityEngine.Random.Range(2, 6);
-        }
-        Debug.Log($"{enemyName} attend {loopsToWait} loops avant de bouger.");
-    }
-
-    public void Walknig(float speed)
-    {
-        if (pathPoints == null || pathPoints.Length < 2) return;
-        progress = Mathf.Clamp01(progress + speed);
-
-        float pathProgress = progress * (pathPoints.Length - 1);
-        int segmentIndex = Mathf.FloorToInt(pathProgress);
-        float t = pathProgress - segmentIndex;
-
-        if (segmentIndex < pathPoints.Length - 1)
-        {
-            transform.position = Vector3.Lerp(pathPoints[segmentIndex].position, pathPoints[segmentIndex + 1].position, t);
-        }
-        else
-        {
-            transform.position = pathPoints[pathPoints.Length - 1].position;
-        }
-
-        if (progress >= 1f)
+        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
         {
             Attacking();
         }
@@ -113,47 +57,61 @@ public class Ennemy : MonoBehaviour, IEnnemy
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Trap"))
+        if (other.CompareTag("Wall"))
         {
-            for (int i = 0; i < TrapManager.instance.traps.Count; i++)
-            {
-             currentStopTime += TrapManager.instance.traps[i].TrapDuration;
-            }
+            StopMovement();
+            StartCoroutine(WaitForWallDeactivation(other.gameObject));
         }
     }
 
-    public void Stop(int timeToStop)
+    private IEnumerator WaitForWallDeactivation(GameObject wall)
     {
-        if (!isStopped)
-        {
-            StartCoroutine(StopRoutine(timeToStop));
-            currentStopTime = timeToStop;
-        }
-    }
+        yield return new WaitUntil(() => wall.activeSelf == false);
 
-    private IEnumerator StopRoutine(float duration)
+        ResumeMovement();
+    }
+    public void StopMovement()
     {
+        if (agent == null) return;
+
         isStopped = true;
-        yield return new WaitForSeconds(duration);
+        agent.isStopped = true;
+        agent.ResetPath();
+    }
+
+    public void ResumeMovement()
+    {
+        if (agent == null || targetPoint == null) return;
+
         isStopped = false;
+        agent.isStopped = false;
+        agent.SetDestination(targetPoint.position);
+    }
+
+    public void Walknig(float speed)
+    {
+        if (agent == null || targetPoint == null || isStopped) return;
+
+        agent.speed = speed;
+        agent.isStopped = false;
+        agent.SetDestination(targetPoint.position);
+    }
+
+    public void Stop(float timeToStop)
+    {
+        throw new System.NotImplementedException();
     }
 
     public void Attacking()
     {
-        Debug.Log("GameOver");
+        
     }
 
     public void ReturnFromStart()
     {
-        ResetPosition();
-        SetNewRandomLoops();
-    }
-
-    private void ResetPosition()
-    {
-        if (pathPoints != null && pathPoints.Length > 0)
+        if (agent != null && targetPoint != null)
         {
-            transform.position = pathPoints[0].position;
+            agent.Warp(targetPoint.position);
         }
     }
 

@@ -1,6 +1,17 @@
 using System;
 using System.Collections;
+using DefaultNamespace;
 using UnityEngine;
+
+[System.Serializable]
+public class TrapDisplayPattern
+{
+    public GameObject[] imagePrefabs;
+    public int numberToSpawn = 3;
+    public float customFallSpeed = -1f;
+    [Header("Intervalle entre les apparitions")]
+    public float spawnInterval = 0.25f;
+}
 
 public abstract class Trap : MonoBehaviour
 {
@@ -14,9 +25,19 @@ public abstract class Trap : MonoBehaviour
     [SerializeField] private Traps trap;
     public int TrapDuration;
 
+    
+    
+    [Header("Pattern visuel du piège")]
+    public TrapDisplayPattern displayPattern;
+    
 
     public virtual void ActivateTrap()
     {
+        if (DisplayManager.instance != null)
+        {
+            DisplayManager.instance.DisplayCustomPattern(displayPattern);
+        }
+
         StartCoroutine(DurationEnded());
     }
 

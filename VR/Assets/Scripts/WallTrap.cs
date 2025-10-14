@@ -16,7 +16,7 @@ namespace DefaultNamespace
 
         public override void TrapTriggered()
         {
-            
+            base.TrapTriggered();
         }
 
         public override void OnDurationEnded()

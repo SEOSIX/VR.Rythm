@@ -20,7 +20,6 @@ namespace DefaultNamespace
         {
             if (index >= 0 && index < traps.Count)
                 traps[index].ActivateTrap();
-            Debug.Log($"trap activé et retarde Ennemy pendant {traps[index].TrapDuration}");
         }
     }
 }
