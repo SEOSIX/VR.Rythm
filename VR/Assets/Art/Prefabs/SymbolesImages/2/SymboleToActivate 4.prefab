@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7605463100082560348}
   - component: {fileID: 8101730332989882273}
   - component: {fileID: 3069375315492560228}
+  - component: {fileID: -6305802434260154145}
   m_Layer: 5
   m_Name: SymboleToActivate 4
   m_TagString: Untagged
@@ -58,7 +59,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.62352943, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.4267309, g: 0.08646317, b: 0.6320754, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -75,3 +76,16 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &-6305802434260154145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3896973812578179935}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2129ffd296f74928897642b679f5f32a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DefaultNamespace.FallingImage
+  imageType: 1

@@ -19,7 +19,7 @@ namespace DefaultNamespace
 
         [Header("Trigger & Movement")]
         public RectTransform triggerZone;
-        public float fallSpeed = 200f; // vitesse par défaut
+        public float fallSpeed = 2f;
         public int maxPerSpawnPoint = 3;
 
         private List<RectTransform>[] activeImages;
@@ -63,7 +63,7 @@ namespace DefaultNamespace
         {
             int spawned = 0;
             int safety = 100;
-            float interval = Mathf.Max(0f, pattern.spawnInterval); // délai entre apparitions
+            float interval = Mathf.Max(0f, pattern.spawnInterval);
             float customSpeed = pattern.customFallSpeed > 0 ? pattern.customFallSpeed : fallSpeed;
 
             while (spawned < pattern.numberToSpawn && safety-- > 0)
@@ -167,18 +167,38 @@ namespace DefaultNamespace
 
         private void CheckTriggers()
         {
-            Rect triggerRect = GetWorldRect(triggerZone);
+            RectTransform canvasRect = triggerZone.GetComponentInParent<Canvas>().GetComponent<RectTransform>();
 
             for (int i = 0; i < activeImages.Length; i++)
             {
                 for (int j = activeImages[i].Count - 1; j >= 0; j--)
                 {
                     RectTransform img = activeImages[i][j];
-                    Rect imgRect = GetWorldRect(img);
+                    if (img == null)
+                    {
+                        activeImages[i].RemoveAt(j);
+                        continue;
+                    }
+                    Vector2 localPos;
+                    RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect,
+                        RectTransformUtility.WorldToScreenPoint(Camera.main, img.position),
+                        Camera.main,
+                        out localPos);
 
-                    if (triggerRect.Overlaps(imgRect))
+                    Vector2 triggerLocalPos = triggerZone.anchoredPosition;
+                    Vector2 triggerSize = triggerZone.rect.size;
+
+                    Rect triggerRect = new Rect(
+                        triggerLocalPos.x - triggerSize.x / 2f,
+                        triggerLocalPos.y - triggerSize.y / 2f,
+                        triggerSize.x,
+                        triggerSize.y
+                    );
+
+                    if (triggerRect.Contains(localPos))
                     {
                         OnObjectTriggered(img.gameObject);
+                        imagesInTrigger.Remove(img.GetComponent<FallingImage>());
                         Destroy(img.gameObject);
                         activeImages[i].RemoveAt(j);
                         customSpeeds.Remove(img);
@@ -187,11 +207,57 @@ namespace DefaultNamespace
             }
         }
 
+        private List<FallingImage> imagesInTrigger = new List<FallingImage>();
+
         private void OnObjectTriggered(GameObject obj)
         {
-            Debug.Log($"Objet Triggered : {obj.name}");
+            FallingImage fi = obj.GetComponent<FallingImage>();
+            if (fi != null && !imagesInTrigger.Contains(fi))
+            {
+                imagesInTrigger.Add(fi);
+                for (int i = 0; i < imagesInTrigger.Count; i++)
+                {
+                    Debug.Log(imagesInTrigger[i]);
+                }
+            }
         }
 
+        public void Button1Press()
+        {
+            CheckButtonPress(0);
+        }
+
+        public void Button2Press()
+        {
+            CheckButtonPress(1);
+        }
+
+        public void Button3Press()
+        {
+            CheckButtonPress(2);
+        }
+
+        private void CheckButtonPress(int buttonType)
+        {
+            for (int i = imagesInTrigger.Count - 1; i >= 0; i--)
+            {
+                FallingImage fi = imagesInTrigger[i];
+                if (fi == null)
+                {
+                    imagesInTrigger.RemoveAt(i);
+                    continue;
+                }
+
+                if (fi.imageType == buttonType)
+                {
+                    fi.SetGreen();
+                    Debug.Log($"Bon bouton pour {fi.name}");
+                    imagesInTrigger.RemoveAt(i);
+                    return;
+                }
+                Debug.Log(imagesInTrigger[i]);
+            }
+        }
         private Rect GetWorldRect(RectTransform rectTransform)
         {
             Vector3[] corners = new Vector3[4];

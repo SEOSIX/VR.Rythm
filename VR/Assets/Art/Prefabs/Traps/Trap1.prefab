@@ -162,12 +162,9 @@ MonoBehaviour:
   displayPattern:
     imagePrefabs:
     - {fileID: 3896973812578179935, guid: 64359587ff1fa8c4d8bd381a5edf1d9f, type: 3}
-    - {fileID: 3896973812578179935, guid: 80b8755de3d547d4bbaeddf2f7592a07, type: 3}
-    - {fileID: 3896973812578179935, guid: f8c5b2a0c1c12f442a2f09b9d290d55a, type: 3}
-    - {fileID: 3896973812578179935, guid: 48553bbd0b1083a4b9cb7f4fc09a4dba, type: 3}
+    - {fileID: 3896973812578179935, guid: 92ff31cfc6bbf434badfdf6c14c1c7ce, type: 3}
     - {fileID: 3896973812578179935, guid: 62a1819c115854f43ac2965d2ba54d46, type: 3}
-    - {fileID: 3896973812578179935, guid: 1d0f602aa1f2f8d409600dfdb54334aa, type: 3}
     numberToSpawn: 3
-    customFallSpeed: 2.3
+    customFallSpeed: 0.32
     spawnInterval: 0.31
   wallCube: {fileID: 0}
