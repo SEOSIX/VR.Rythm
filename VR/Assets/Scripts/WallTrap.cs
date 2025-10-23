@@ -11,7 +11,16 @@ namespace DefaultNamespace
         public override void ActivateTrap()
         {
             base.ActivateTrap();
-            wallCube.SetActive(true);
+            if (DisplayManager.instance != null && DisplayManager.instance.AllCorect)
+            {
+                wallCube.SetActive(true);
+                Debug.Log("Tous corrects : le mur s'active !");
+            }
+            else
+            {
+                wallCube.SetActive(false);
+                Debug.Log("Pas tous corrects : le mur reste inactif.");
+            }
         }
 
         public override void TrapTriggered()

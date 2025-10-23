@@ -250,8 +250,11 @@ namespace DefaultNamespace
                         customSpeeds[rect] = 0f;
                     imagesInTrigger.RemoveAt(i);
                     
-                    allCorrect = true;
-                    return;
+                    if (fi.gameObject == null)
+                    {
+                        allCorrect = true;
+                        return;
+                    }
                 }
 
                 fi.SetColor(Color.darkOrange);
