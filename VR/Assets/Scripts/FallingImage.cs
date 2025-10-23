@@ -7,18 +7,18 @@ namespace DefaultNamespace
     {
         public int imageType;
         private Image img;
+        public int spawnIndex;
 
         private void Awake()
         {
             img = GetComponent<Image>();
         }
 
-        public void SetGreen()
+        public void SetColor(Color colorToSet)
         {
             if (img != null)
             {
-                img.color = Color.green;
-                Destroy(gameObject, 0.5f);
+                img.color = colorToSet;
             }
         }
     }

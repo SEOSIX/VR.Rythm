@@ -9,22 +9,24 @@ namespace DefaultNamespace
     {
         public static DisplayManager instance { get; private set; }
 
-        [Header("Spawn Points")]
-        public RectTransform[] spawnPoints;
+        [Header("Spawn Points")] public RectTransform[] spawnPoints;
 
         [Header("Prefabs par point (utilisé pour tests manuels)")]
         public GameObject[] imagePrefabsPoint1;
+
         public GameObject[] imagePrefabsPoint2;
         public GameObject[] imagePrefabsPoint3;
 
-        [Header("Trigger & Movement")]
-        public RectTransform triggerZone;
+        [Header("Trigger & Movement")] public RectTransform triggerZone;
         public float fallSpeed = 2f;
         public int maxPerSpawnPoint = 3;
 
         private List<RectTransform>[] activeImages;
         private Dictionary<RectTransform, float> customSpeeds = new Dictionary<RectTransform, float>();
 
+        private bool allCorrect = true;
+
+        public bool AllCorect => allCorrect;
 
         private void Awake()
         {
@@ -39,15 +41,11 @@ namespace DefaultNamespace
         {
             MoveImagesDown();
             CheckTriggers();
-
-            // Pour test : spawn manuel avec la touche espace
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                SpawnRandomImages();
-            }
+            IsCorrect();
         }
 
         #region === Affichage d’un pattern de Trap ===
+
         public void DisplayCustomPattern(TrapDisplayPattern pattern)
         {
             if (pattern == null || pattern.imagePrefabs == null || pattern.imagePrefabs.Length == 0)
@@ -76,44 +74,6 @@ namespace DefaultNamespace
                     continue;
                 }
 
-                GameObject prefab = pattern.imagePrefabs[Random.Range(0, pattern.imagePrefabs.Length)];
-                if (prefab == null)
-                {
-                    yield return null;
-                    continue;
-                }
-
-                GameObject newImg = Instantiate(prefab, spawnPoints[spawnIndex]);
-                RectTransform rect = newImg.GetComponent<RectTransform>();
-                rect.anchoredPosition = Vector2.zero;
-
-                activeImages[spawnIndex].Add(rect);
-                customSpeeds[rect] = customSpeed;
-
-                spawned++;
-
-                yield return new WaitForSeconds(interval);
-            }
-
-            if (safety <= 0)
-                Debug.LogWarning("Boucle interrompue (trop d’objets actifs).");
-        }
-        #endregion
-
-
-        #region === Fonctions existantes ===
-        public void SpawnRandomImages()
-        {
-            int spawned = 0;
-            int safety = 100;
-
-            while (spawned < 3 && safety-- > 0)
-            {
-                int spawnIndex = Random.Range(0, spawnPoints.Length);
-
-                if (activeImages[spawnIndex].Count >= maxPerSpawnPoint)
-                    continue;
-
                 GameObject prefab = null;
                 switch (spawnIndex)
                 {
@@ -128,20 +88,29 @@ namespace DefaultNamespace
                         break;
                 }
 
-                if (prefab == null) continue;
-
                 GameObject newImg = Instantiate(prefab, spawnPoints[spawnIndex]);
                 RectTransform rect = newImg.GetComponent<RectTransform>();
                 rect.anchoredPosition = Vector2.zero;
 
+
+                FallingImage fi = newImg.GetComponent<FallingImage>();
+                fi.spawnIndex = spawnIndex;
                 activeImages[spawnIndex].Add(rect);
-                customSpeeds[rect] = fallSpeed;
+                customSpeeds[rect] = customSpeed;
+
                 spawned++;
+
+                yield return new WaitForSeconds(interval);
             }
 
             if (safety <= 0)
-                Debug.LogWarning("Boucle interrompue pour éviter un crash (trop d'objets actifs).");
+                Debug.LogWarning("Boucle interrompue (trop d’objets actifs).");
         }
+
+        #endregion
+
+
+        #region === Checking Triggers ===
 
         private void MoveImagesDown()
         {
@@ -157,7 +126,6 @@ namespace DefaultNamespace
                     }
 
                     float speed = customSpeeds.ContainsKey(img) ? customSpeeds[img] : fallSpeed;
-
                     Vector2 pos = img.anchoredPosition;
                     pos.y -= speed * Time.deltaTime;
                     img.anchoredPosition = pos;
@@ -179,29 +147,47 @@ namespace DefaultNamespace
                         activeImages[i].RemoveAt(j);
                         continue;
                     }
+
+
                     Vector2 localPos;
                     RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect,
                         RectTransformUtility.WorldToScreenPoint(Camera.main, img.position),
                         Camera.main,
                         out localPos);
 
-                    Vector2 triggerLocalPos = triggerZone.anchoredPosition;
-                    Vector2 triggerSize = triggerZone.rect.size;
+                    Vector2 triggerLocalPos;
+                    RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect,
+                        RectTransformUtility.WorldToScreenPoint(Camera.main, triggerZone.position),
+                        Camera.main,
+                        out triggerLocalPos);
 
+                    float margin = 0.09f;
+                    Vector2 triggerSize = triggerZone.rect.size;
                     Rect triggerRect = new Rect(
                         triggerLocalPos.x - triggerSize.x / 2f,
-                        triggerLocalPos.y - triggerSize.y / 2f,
+                        triggerLocalPos.y - triggerSize.y / 2f + margin,
                         triggerSize.x,
                         triggerSize.y
                     );
+                    FallingImage fi = img.GetComponent<FallingImage>();
+                    bool isInTrigger = triggerRect.Contains(localPos);
 
-                    if (triggerRect.Contains(localPos))
+                    if (isInTrigger)
                     {
-                        OnObjectTriggered(img.gameObject);
-                        imagesInTrigger.Remove(img.GetComponent<FallingImage>());
-                        Destroy(img.gameObject);
-                        activeImages[i].RemoveAt(j);
-                        customSpeeds.Remove(img);
+                        if (!imagesInTrigger.Contains(fi))
+                        {
+                            OnObjectTriggered(img.gameObject);
+                        }
+                    }
+                    else
+                    {
+                        if (imagesInTrigger.Contains(fi))
+                        {
+                            imagesInTrigger.Remove(fi);
+                            Destroy(img.gameObject, 1f);
+                            activeImages[i].RemoveAt(j);
+                            customSpeeds.Remove(img);
+                        }
                     }
                 }
             }
@@ -248,23 +234,49 @@ namespace DefaultNamespace
                     continue;
                 }
 
+                if (fi.spawnIndex != buttonType)
+                    continue;
+
                 if (fi.imageType == buttonType)
                 {
-                    fi.SetGreen();
+                    SoundManager.PlaySound(SoundType.CORRECTRYTHM);
+                    SoundManager.IncreasePitch();
+
                     Debug.Log($"Bon bouton pour {fi.name}");
+                    RectTransform rect = fi.GetComponent<RectTransform>();
+
+                    Destroy(fi.gameObject, 1f);
+                    if (customSpeeds.ContainsKey(rect))
+                        customSpeeds[rect] = 0f;
                     imagesInTrigger.RemoveAt(i);
+                    
+                    allCorrect = true;
                     return;
                 }
+
+                fi.SetColor(Color.darkOrange);
+                SoundManager.ResetPitch();
+                
+                allCorrect = false;
+                imagesInTrigger.RemoveAt(i);
                 Debug.Log(imagesInTrigger[i]);
             }
+
+            
         }
-        private Rect GetWorldRect(RectTransform rectTransform)
+        
+        public void IsCorrect()
         {
-            Vector3[] corners = new Vector3[4];
-            rectTransform.GetWorldCorners(corners);
-            Vector2 size = new Vector2(corners[2].x - corners[0].x, corners[2].y - corners[0].y);
-            return new Rect(corners[0].x, corners[0].y, size.x, size.y);
+            if (allCorrect)
+            {
+                SoundManager.PlaySound(SoundType.ALLCORRECT);
+            }
+            else
+            {
+                //jouer sons false
+            }
         }
+
         #endregion
     }
 }
