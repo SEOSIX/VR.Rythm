@@ -41,7 +41,7 @@ namespace DefaultNamespace
         {
             MoveImagesDown();
             CheckTriggers();
-            IsCorrect();
+            //IsCorrect();
         }
 
         #region === Affichage d’un pattern de Trap ===
@@ -250,13 +250,9 @@ namespace DefaultNamespace
                         customSpeeds[rect] = 0f;
                     imagesInTrigger.RemoveAt(i);
                     
-                    if (fi.gameObject == null)
-                    {
-                        allCorrect = true;
-                        return;
-                    }
+                    allCorrect = true;
+                    return;
                 }
-
                 fi.SetColor(Color.darkOrange);
                 SoundManager.ResetPitch();
                 
