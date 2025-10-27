@@ -17,22 +17,35 @@ public class DisplayError : MonoBehaviour
     }
     public ErrorType typeError;
 
-    [SerializeField]private float timeToDisplayCamera;
-    [SerializeField] private Canvas cameraCanvasDisplay;
-    [SerializeField] private Canvas rythmsCanvasDisplay;
-
-
-    /// TEMPORAIRE
-    public Slider TimeDisplay; 
-    ///
-
-
+    [Header("Camera Settings")]
+    public float baseTimeToDisplayCamera;
+    public float timeToDisplayCamera; 
+    public Canvas cameraCanvasDisplay;
+    
+    [Header("Rhythm Settings")]
+    public int baseNumberUsageRythmActivator; 
     public int numberUsageRythmActivator;
+    public Canvas rythmsCanvasDisplay;
+
+
+    /// TEMPORAIRE ///
+    public Slider TimeDisplay;
+
+    
 
 
     private void Awake()
     {
         instance = this;
+    }
+    
+    private void Start()
+    {
+        baseTimeToDisplayCamera = timeToDisplayCamera;
+        baseNumberUsageRythmActivator = numberUsageRythmActivator;
+
+        if (TimeDisplay != null)
+            TimeDisplay.maxValue = timeToDisplayCamera;
     }
 
     void Update()
@@ -60,7 +73,6 @@ public class DisplayError : MonoBehaviour
             typeError = ErrorType.PanelDisplay;
         }
     }
-
 
     private void ReportBug()
     {
