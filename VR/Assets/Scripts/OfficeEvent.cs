@@ -5,11 +5,20 @@ using Random = UnityEngine.Random;
 
 public class OfficeEvent : MonoBehaviour
 {
-    [Header("Lights")]
+
+    public SceneChanger instance;
+    
+    [Header("Lights part")]
     public Light officeLight;
     public GameObject leftLight;
     public GameObject rightLight;
     public GameObject midleLight;
+    
+    [Header("Jumpscare part")]
+    public GameObject pictureInWorld;
+    public bool animInPlay;
+    public bool jumpscareActive;
+    public Animator anim;
 
     [Header("Sound Source")] 
     public AudioSource musiqueSource;
@@ -24,13 +33,20 @@ public class OfficeEvent : MonoBehaviour
 
     private void Start()
     {
-        //Deactivate
+
+        RenderSettings.fogDensity = 0.300f;
+        
+        //Light
         leftLight.SetActive(false);
         rightLight.SetActive(false);
         midleLight.SetActive(false);
         
         //Music
         PlayMusic(musicDeFond,true);
+        
+        //Jumpscare
+        pictureInWorld.SetActive(false);
+        animInPlay = false;
         
     }
 
@@ -40,17 +56,21 @@ public class OfficeEvent : MonoBehaviour
         {
             if (Random.Range(0f, 1f) < 0.001f) // 1% de chance par frame
             {
-                StartCoroutine(FlickerCoroutine());
+                StartCoroutine(FlickerCoroutine(Random.Range(2, 20)));
             }
+        }
+        
+        if (Input.GetKeyDown(KeyCode.KeypadEnter) && !animInPlay)
+        {
+            StartCoroutine(JumpscareAnimCorout());
         }
     }
 
-    private IEnumerator FlickerCoroutine()
+    private IEnumerator FlickerCoroutine(int flickers)
     {
         isFlickering = true;
         PlaySoundEffect(lightFlicker);
         
-        int flickers = Random.Range(2, 20);
         for (int i = 0; i < flickers; i++)
         {
             officeLight.enabled = false;
@@ -59,7 +79,7 @@ public class OfficeEvent : MonoBehaviour
             yield return new WaitForSeconds(Random.Range(0.05f, 0.3f));
         }
         
-        yield return new WaitForSeconds(Random.Range(3f, 8f));
+        yield return new WaitForSeconds(20f);
         isFlickering = false;
     }
     
@@ -72,6 +92,30 @@ public class OfficeEvent : MonoBehaviour
         }
         soundEffectSource.clip = soundEffect;
         soundEffectSource.Play();
+    }
+    
+    public IEnumerator JumpscareAnimCorout()
+    {
+        jumpscareActive = true;
+        
+        pictureInWorld.SetActive(true);
+        
+        yield return StartCoroutine(FlickerCoroutine(20));
+        officeLight.enabled = false;
+        pictureInWorld.SetActive(false);
+        
+        yield return new WaitForSeconds(Random.Range(2f, 8f));
+        
+        animInPlay = false;
+        anim.SetTrigger("Jumpscare");
+        
+        yield return new WaitForSeconds(5.30f);
+        
+        instance.LoadDeathMenu();
+        
+        yield return new WaitForSeconds(20f);
+        
+        animInPlay = false;
     }
     
     public void PlayMusic(AudioClip soundEffect,bool loop)
