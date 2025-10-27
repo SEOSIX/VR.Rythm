@@ -269,10 +269,12 @@ namespace DefaultNamespace
             if (allCorrect)
             {
                 SoundManager.PlaySound(SoundType.ALLCORRECT);
+                DisplayError.instance.DecreaseUsageRythms(DisplayError.instance.numberUsageRythmActivator);
             }
             else
             {
                 //jouer sons false
+                DisplayError.instance.DecreaseUsageRythms(DisplayError.instance.numberUsageRythmActivator);
             }
         }
 
