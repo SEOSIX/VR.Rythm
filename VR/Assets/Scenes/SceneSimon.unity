@@ -4260,11 +4260,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7819445365152257, guid: 62a10b31f2f6650489bbe8544358ccd0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.23
+      value: -2.244
       objectReference: {fileID: 0}
     - target: {fileID: 7819445365152257, guid: 62a10b31f2f6650489bbe8544358ccd0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.15
+      value: 0.158
       objectReference: {fileID: 0}
     - target: {fileID: 7819445365152257, guid: 62a10b31f2f6650489bbe8544358ccd0, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4817,10 +4817,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2eec07d0700ac942ab51d48de3b7ec6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  instance: {fileID: 0}
   officeLight: {fileID: 1522415008}
   leftLight: {fileID: 86379878}
   rightLight: {fileID: 1700896600}
   midleLight: {fileID: 482301774}
+  pictureInWorld: {fileID: 0}
+  animInPlay: 0
+  jumpscareActive: 0
+  anim: {fileID: 0}
   musiqueSource: {fileID: 98175677}
   soundEffectSource: {fileID: 1213196825}
   musicDeFond: {fileID: 8300000, guid: fc65b64105626a740bed5a9cece30ed7, type: 3}
@@ -11113,7 +11118,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.31764707}
+  m_Color: {r: 0.8396226, g: 0.7129166, b: 0.2732734, a: 0.31764707}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
