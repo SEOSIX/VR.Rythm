@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -54,16 +55,13 @@ public class OfficeEvent : MonoBehaviour
     {
         if (!isFlickering)
         {
-            if (Random.Range(0f, 1f) < 0.001f) // 1% de chance par frame
+            if (Random.Range(0f, 1f) < 0.0001f) // 0.1% de chance par frame
             {
                 StartCoroutine(FlickerCoroutine(Random.Range(2, 20)));
             }
         }
         
-        if (Input.GetKeyDown(KeyCode.KeypadEnter) && !animInPlay)
-        {
-            StartCoroutine(JumpscareAnimCorout());
-        }
+        
     }
 
     private IEnumerator FlickerCoroutine(int flickers)
@@ -127,6 +125,14 @@ public class OfficeEvent : MonoBehaviour
         musiqueSource.clip = soundEffect;
         
         musiqueSource.Play();
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Ennemy") && !animInPlay)
+        {
+            StartCoroutine(JumpscareAnimCorout());
+        }
     }
     
 }
