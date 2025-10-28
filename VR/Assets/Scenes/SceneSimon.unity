@@ -15211,10 +15211,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
-    - target: {fileID: 6380675167766567780, guid: ec5687f7ae6f3eb4b812bf63ad6265cc, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -0.0396
-      objectReference: {fileID: 0}
     - target: {fileID: 8728750467495443048, guid: ec5687f7ae6f3eb4b812bf63ad6265cc, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
