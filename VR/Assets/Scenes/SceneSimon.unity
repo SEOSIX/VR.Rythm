@@ -4178,7 +4178,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0.05, y: -0.05}
+  m_AnchoredPosition: {x: 0.085, y: -0.05}
   m_SizeDelta: {x: 0.1, y: 0.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &517141644
@@ -4222,7 +4222,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0.2122, y: -0.05}
+  m_AnchoredPosition: {x: 0.248, y: -0.05}
   m_SizeDelta: {x: 0.1, y: 0.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &547758172
@@ -4817,10 +4817,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2eec07d0700ac942ab51d48de3b7ec6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  instance: {fileID: 0}
   officeLight: {fileID: 1522415008}
   leftLight: {fileID: 86379878}
   rightLight: {fileID: 1700896600}
   midleLight: {fileID: 482301774}
+  pictureInWorld: {fileID: 0}
+  animInPlay: 0
+  jumpscareActive: 0
+  anim: {fileID: 0}
   musiqueSource: {fileID: 98175677}
   soundEffectSource: {fileID: 1213196825}
   musicDeFond: {fileID: 8300000, guid: fc65b64105626a740bed5a9cece30ed7, type: 3}
@@ -7105,7 +7110,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0.37440002, y: -0.05}
+  m_AnchoredPosition: {x: 0.413, y: -0.05}
   m_SizeDelta: {x: 0.1, y: 0.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1155898976
