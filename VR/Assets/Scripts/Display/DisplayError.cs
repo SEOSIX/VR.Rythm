@@ -33,7 +33,6 @@ public class DisplayError : MonoBehaviour
 
     
 
-
     private void Awake()
     {
         instance = this;

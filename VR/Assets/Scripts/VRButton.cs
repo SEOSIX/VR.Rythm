@@ -21,19 +21,24 @@ public class VRButton : MonoBehaviour
     {
         if (!Ispressed)
         {
-            button.transform.position = new Vector3(0, 0.003f, 0);
+            Renderer buttonColor = button.GetComponent<Renderer>();
+            
+            buttonColor.material.color = Color.blue;
             presser = other.gameObject;
             onPress.Invoke();
+            Ispressed = true;
             //jouer le sons lorqu'on appui
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other == presser)
+        presser = other.gameObject;
+        if (other.gameObject == presser)
         {
-            button.transform.position = new Vector3(0, 0.69f, 0);
-            onRelease.Invoke();
+            Ispressed = false;
+            Renderer buttonColor = button.GetComponent<Renderer>();
+            buttonColor.material.color = Color.white;
         }
     }
 }

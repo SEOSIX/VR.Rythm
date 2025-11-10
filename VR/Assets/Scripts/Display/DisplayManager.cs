@@ -41,7 +41,6 @@ namespace DefaultNamespace
         {
             MoveImagesDown();
             CheckTriggers();
-            //IsCorrect();
         }
 
         #region === Affichage d’un pattern de Trap ===
@@ -161,7 +160,7 @@ namespace DefaultNamespace
                         Camera.main,
                         out triggerLocalPos);
 
-                    float margin = 0.09f;
+                    float margin = 0.01f;
                     Vector2 triggerSize = triggerZone.rect.size;
                     Rect triggerRect = new Rect(
                         triggerLocalPos.x - triggerSize.x / 2f,
@@ -222,7 +221,7 @@ namespace DefaultNamespace
         {
             CheckButtonPress(2);
         }
-
+        
         private void CheckButtonPress(int buttonType)
         {
             for (int i = imagesInTrigger.Count - 1; i >= 0; i--)
@@ -237,43 +236,70 @@ namespace DefaultNamespace
                 if (fi.spawnIndex != buttonType)
                     continue;
 
+                RectTransform rect = fi.GetComponent<RectTransform>();
+                
                 if (fi.imageType == buttonType)
                 {
                     SoundManager.PlaySound(SoundType.CORRECTRYTHM);
                     SoundManager.IncreasePitch();
-
-                    Debug.Log($"Bon bouton pour {fi.name}");
-                    RectTransform rect = fi.GetComponent<RectTransform>();
-
-                    Destroy(fi.gameObject, 1f);
-                    if (customSpeeds.ContainsKey(rect))
-                        customSpeeds[rect] = 0f;
                     imagesInTrigger.RemoveAt(i);
-                    
+                    RemoveRectFromActiveImages(rect);
+                    if (customSpeeds.ContainsKey(rect))
+                        customSpeeds.Remove(rect);
+                    Destroy(fi.gameObject);
+
                     allCorrect = true;
+                    if (AreAllPatternsCleared())
+                        IsCorrect();
+
                     return;
                 }
-                fi.SetColor(Color.darkOrange);
                 SoundManager.ResetPitch();
-                
-                allCorrect = false;
                 imagesInTrigger.RemoveAt(i);
-                Debug.Log(imagesInTrigger[i]);
+                RemoveRectFromActiveImages(rect);
+                if (customSpeeds.ContainsKey(rect))
+                    customSpeeds.Remove(rect);
+                Destroy(fi.gameObject, 0.3f);
+
+                allCorrect = false;
+                Debug.Log($"BIG ERROR sur {fi.name}, imagesInTrigger count {imagesInTrigger.Count}");
+            }
+        }
+
+        private void RemoveRectFromActiveImages(RectTransform rect)
+        {
+            if (rect == null) return;
+
+            for (int k = 0; k < activeImages.Length; k++)
+            {
+                if (activeImages[k].Remove(rect))
+                    return;
+            }
+        }
+
+        private bool AreAllPatternsCleared()
+        {
+            for (int i = 0; i < activeImages.Length; i++)
+            {
+                if (activeImages[i].Count > 0)
+                    return false;
             }
 
-            
+            return imagesInTrigger.Count == 0;
         }
         
-        public void IsCorrect()
+        void IsCorrect()
         {
-            if (allCorrect)
+            if (AreAllPatternsCleared())
             {
-                SoundManager.PlaySound(SoundType.ALLCORRECT);
+                Debug.Log("Tous les traps ont été correctement gérés !");
+                SoundManager.ResetPitch();
                 DisplayError.instance.DecreaseUsageRythms(DisplayError.instance.numberUsageRythmActivator);
             }
-            else
+            else if (!allCorrect)
             {
-                //jouer sons false
+                SoundManager.ResetPitch();
+                Debug.Log("Une ou plusieurs erreurs détectées.");
                 DisplayError.instance.DecreaseUsageRythms(DisplayError.instance.numberUsageRythmActivator);
             }
         }
