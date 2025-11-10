@@ -21,6 +21,7 @@ public class DisplayError : MonoBehaviour
     public float baseTimeToDisplayCamera;
     public float timeToDisplayCamera; 
     public Canvas cameraCanvasDisplay;
+    public Slider TimeDisplay;
     
     [Header("Rhythm Settings")]
     public int baseNumberUsageRythmActivator; 
@@ -29,7 +30,7 @@ public class DisplayError : MonoBehaviour
 
 
     /// TEMPORAIRE ///
-    public Slider TimeDisplay;
+    
 
     
 
@@ -45,6 +46,7 @@ public class DisplayError : MonoBehaviour
 
         if (TimeDisplay != null)
             TimeDisplay.maxValue = timeToDisplayCamera;
+        TimeDisplay.value = TimeDisplay.maxValue;
     }
 
     void Update()

@@ -277,7 +277,7 @@ namespace DefaultNamespace
             }
         }
 
-        private bool AreAllPatternsCleared()
+        public bool AreAllPatternsCleared()
         {
             for (int i = 0; i < activeImages.Length; i++)
             {
