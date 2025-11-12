@@ -22,14 +22,15 @@ public class BrokenObjectScript : MonoBehaviour
     public GameObject rythmPanelCrash;
     public GameObject rythmPanelDisplay;
     
-    
+    /*
     [Header("Link Trap")] 
     public GameObject trapCrash;
     public GameObject trapDisplay;
+    */
     
     [HideInInspector] public bool isCameraBroke = false;
     [HideInInspector] public bool isRythmPanelBroke = false;
-    [HideInInspector] public bool isTrapBroke = false;
+    //[HideInInspector] public bool isTrapBroke = false;
     
     void Start()
     {
@@ -72,6 +73,8 @@ public class BrokenObjectScript : MonoBehaviour
             rythmLightRenderer.material = GreenMat;
         }
         
+        //USE later if needed
+        /*
         if (isTrapBroke)
         {
             trapDisplay.SetActive(false);
@@ -86,7 +89,7 @@ public class BrokenObjectScript : MonoBehaviour
 
             trapLightRenderer.material = GreenMat;
         }
-        
+        */
         
     }
     
@@ -140,6 +143,7 @@ public class BrokenObjectScript : MonoBehaviour
 
         #endregion
         
+        /*
         #region Trap
         
             // Activated by buton in game
@@ -159,6 +163,7 @@ public class BrokenObjectScript : MonoBehaviour
             }
 
         #endregion
+        */
 
     #endregion
     

@@ -81,7 +81,7 @@ public class DisplayError : MonoBehaviour
                 break;
             
             case (ErrorType.Door) :
-                brokenObjectScript.isTrapBroke = true;
+                //brokenObjectScript.isTrapBroke = true;
                 break;
             
             case (ErrorType.PanelDisplay) :
