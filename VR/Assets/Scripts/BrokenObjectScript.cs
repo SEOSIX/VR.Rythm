@@ -43,36 +43,10 @@ public class BrokenObjectScript : MonoBehaviour
     }
     public void Update()
     {
-        if (isCameraBroke)
-        {
-            cameraDisplay.SetActive(false);
-            cameraCrash.SetActive(true);
-            
-            cameraLightRenderer.material = RedMat;
-        }
-        else
-        {
-            cameraDisplay.SetActive(true);
-            cameraCrash.SetActive(false);
-            
-            cameraLightRenderer.material = GreenMat;
-        }
-        
-        if (isRythmPanelBroke)
-        {
-            rythmPanelDisplay.SetActive(false);
-            rythmPanelCrash.SetActive(true);
 
-            rythmLightRenderer.material = RedMat;
-        }
-        else
-        {
-            rythmPanelDisplay.SetActive(true);
-            rythmPanelCrash.SetActive(false);
+        CheckCamera();
+        CheckRythmPanel();
 
-            rythmLightRenderer.material = GreenMat;
-        }
-        
         //USE later if needed
         /*
         if (isTrapBroke)
@@ -90,9 +64,44 @@ public class BrokenObjectScript : MonoBehaviour
             trapLightRenderer.material = GreenMat;
         }
         */
-        
+
     }
-    
+
+    private void CheckCamera()
+    {
+        if (isCameraBroke)
+        {
+            cameraDisplay.SetActive(false);
+            cameraCrash.SetActive(true);
+            
+            cameraLightRenderer.material = RedMat;
+        }
+        else
+        {
+            cameraDisplay.SetActive(true);
+            cameraCrash.SetActive(false);
+            
+            cameraLightRenderer.material = GreenMat;
+        }
+    }
+
+    private void CheckRythmPanel()
+    {
+        if (isRythmPanelBroke)
+        {
+            rythmPanelDisplay.SetActive(false);
+            rythmPanelCrash.SetActive(true);
+
+            rythmLightRenderer.material = RedMat;
+        }
+        else
+        {
+            rythmPanelDisplay.SetActive(true);
+            rythmPanelCrash.SetActive(false);
+
+            rythmLightRenderer.material = GreenMat;
+        }
+    }
     
 
     #region FixingStuff
