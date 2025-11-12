@@ -167,4 +167,4 @@ MonoBehaviour:
     numberToSpawn: 3
     customFallSpeed: 0.32
     spawnInterval: 0.31
-  wallCube: {fileID: 0}
+  wallCube: {fileID: 4957906798776657715}

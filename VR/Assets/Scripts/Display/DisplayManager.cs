@@ -1,7 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using Random = UnityEngine.Random;
 
 namespace DefaultNamespace
 {
@@ -25,8 +27,9 @@ namespace DefaultNamespace
         private Dictionary<RectTransform, float> customSpeeds = new Dictionary<RectTransform, float>();
 
         private bool allCorrect = true;
-
         public bool AllCorect => allCorrect;
+        
+        public event Action OnAllPatternsCleared;
 
         private void Awake()
         {
@@ -294,9 +297,11 @@ namespace DefaultNamespace
             {
                 Debug.Log("Tous les traps ont été correctement gérés !");
                 SoundManager.ResetPitch();
+                OnAllPatternsCleared?.Invoke();
                 DisplayError.instance.DecreaseUsageRythms(DisplayError.instance.numberUsageRythmActivator);
+                
             }
-            else if (!allCorrect)
+            else
             {
                 SoundManager.ResetPitch();
                 Debug.Log("Une ou plusieurs erreurs détectées.");

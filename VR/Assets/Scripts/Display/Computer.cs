@@ -27,18 +27,11 @@ public class Computer : MonoBehaviour
         if (leftGrip > 0.8f)
         {
             Debug.Log("Grip gauche pressé !");
-            DebugLogTest();
         }
 
         if (rightGrip > 0.8f)
         {
             Debug.Log("Grip droit pressé !");
-            DebugLogTest();
         }
-    }
-
-    public void DebugLogTest()
-    {
-        Debug.Log("testtesttest");
     }
 }

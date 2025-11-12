@@ -8,26 +8,50 @@ namespace DefaultNamespace
     public class WallTrap : Trap
     {
         [SerializeField] private GameObject wallCube;
-        public override void ActivateTrap()
+
+        public bool isActivating;
+        
+        
+        private void OnEnable()
         {
-            base.ActivateTrap();
-            if (DisplayManager.instance != null && DisplayManager.instance.AreAllPatternsCleared())
+            if (DisplayManager.instance != null)
             {
-                wallCube.SetActive(true);
-                Debug.Log("Tous corrects : le mur s'active !");
+                DisplayManager.instance.OnAllPatternsCleared += ShowWall;
+                Debug.Log("pipi");
             }
             else
             {
-                wallCube.SetActive(false);
-                Debug.Log("Pas tous corrects : le mur reste inactif.");
+                Debug.Log("caca");
             }
+        }
+
+        
+        private void OnDisable()
+        {
+            if (DisplayManager.instance != null)
+                DisplayManager.instance.OnAllPatternsCleared -= ShowWall;
+        }
+
+        public override void ActivateTrap()
+        {
+            base.ActivateTrap();
+            isActivating = true;
         }
 
         public override void TrapTriggered()
         {
             base.TrapTriggered();
         }
-
+        
+        private void ShowWall()
+        {
+            if (!isActivating)
+                return;
+            wallCube.SetActive(true);
+            
+            isActivating = false;
+        }
+        
         public override void OnDurationEnded()
         {
             base.OnDurationEnded();

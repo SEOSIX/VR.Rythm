@@ -18,8 +18,8 @@ namespace DefaultNamespace
 
         public void ActivateTrap(int index)
         {
-            if (index >= 0 && index < traps.Count)
-                traps[index].ActivateTrap();
+            traps[index].ActivateTrap();
+            Debug.Log($"trap {index} astarted");
         }
     }
 }
