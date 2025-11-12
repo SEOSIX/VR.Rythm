@@ -13,7 +13,6 @@ namespace DefaultNamespace
 
         [Header("Prefabs par point (utilisé pour tests manuels)")]
         public GameObject[] imagePrefabsPoint1;
-
         public GameObject[] imagePrefabsPoint2;
         public GameObject[] imagePrefabsPoint3;
 
