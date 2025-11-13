@@ -22,7 +22,7 @@ public class DisplayCorrection : DisplayError
         {
             return;
         } 
-        if (numberUsageRythmActivator<= 0f)
+        if (numberUsageRythmActivator <= 0f)
         {
             numberUsageRythmActivator = baseNumberUsageRythmActivator;
         }

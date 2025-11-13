@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class DisplayError : MonoBehaviour
 {
     public static DisplayError instance { get; private set; }
-    
+    public BrokenObjectScript brokenObjectScript;
     
     public enum ErrorType
     {
@@ -27,7 +27,6 @@ public class DisplayError : MonoBehaviour
     [Header("Rhythm Settings")]
     public int baseNumberUsageRythmActivator; 
     public int numberUsageRythmActivator;
-    public Canvas rythmsCanvasDisplay;
 
 
 
@@ -75,23 +74,21 @@ public class DisplayError : MonoBehaviour
             typeError = ErrorType.PanelDisplay;
         }
     }
-
+    
     private void ReportBug()
     {
         switch (typeError)
         {
             case (ErrorType.Camera) :
-                cameraCanvasDisplay.enabled = false;
-                //Afficher l'erreur au terminal de contrôle stp mercii
-                Debug.Log("ErrorCamera");
+                brokenObjectScript.isCameraBroke = true;
                 break;
+            
             case (ErrorType.Door) :
-                Debug.Log("ErrorDoor");
+                //brokenObjectScript.isTrapBroke = true;
                 break;
+            
             case (ErrorType.PanelDisplay) :
-                rythmsCanvasDisplay.enabled = false;
-                //same here t'a que récupérer l'autre truc qui permet de 
-                Debug.Log("ErrorPanel");
+                brokenObjectScript.isRythmPanelBroke = true;
                 break;
         }
     }
