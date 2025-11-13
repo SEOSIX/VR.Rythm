@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Computer : MonoBehaviour
@@ -5,6 +6,12 @@ public class Computer : MonoBehaviour
     [SerializeField] private Animator animator;
     private bool isOpen = false;
     private bool isAnimating = false;
+
+    private void Start()
+    {
+        animator.SetTrigger("Close");
+        isOpen = false;
+    }
 
     public void Toggle()
     {
