@@ -11,6 +11,7 @@ public class DisplayError : MonoBehaviour
     
     public enum ErrorType
     {
+        none,
         Camera,
         PanelDisplay,
         Door
@@ -29,8 +30,6 @@ public class DisplayError : MonoBehaviour
     public Canvas rythmsCanvasDisplay;
 
 
-    /// TEMPORAIRE ///
-    
 
     
 
@@ -41,6 +40,7 @@ public class DisplayError : MonoBehaviour
     
     private void Start()
     {
+        typeError = ErrorType.none;
         baseTimeToDisplayCamera = timeToDisplayCamera;
         baseNumberUsageRythmActivator = numberUsageRythmActivator;
 
@@ -52,6 +52,7 @@ public class DisplayError : MonoBehaviour
     void Update()
     {
         Timer(timeToDisplayCamera);
+		ReportBug();
     }
     
     
@@ -59,7 +60,7 @@ public class DisplayError : MonoBehaviour
     {
         timeToDisplay -= Time.deltaTime;
         TimeDisplay.value--;
-        if (timeToDisplay <= 0f)
+        if (TimeDisplay.value <= 0f)
         {
             typeError = ErrorType.Camera;
         }
@@ -80,7 +81,6 @@ public class DisplayError : MonoBehaviour
         switch (typeError)
         {
             case (ErrorType.Camera) :
-
                 cameraCanvasDisplay.enabled = false;
                 //Afficher l'erreur au terminal de contrôle stp mercii
                 Debug.Log("ErrorCamera");

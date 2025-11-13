@@ -1,37 +1,32 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class Computer : MonoBehaviour
 {
-    [Header("XR Grip Input (via Action Based Controller)")]
-    public InputActionProperty leftGripAction;
-    public InputActionProperty rightGripAction;
-    
-    private void OnEnable()
-    {
-        leftGripAction.action.Enable();
-        rightGripAction.action.Enable();
-    }
+    [SerializeField] private Animator animator;
+    private bool isOpen = false;
+    private bool isAnimating = false;
 
-    private void OnDisable()
+    public void Toggle()
     {
-        leftGripAction.action.Disable();
-        rightGripAction.action.Disable();
-    }
+        if (isAnimating) return;
 
-    private void Update()
-    {
-        float leftGrip = leftGripAction.action.ReadValue<float>();
-        float rightGrip = rightGripAction.action.ReadValue<float>();
-
-        if (leftGrip > 0.8f)
+        isAnimating = true;
+        if (!isOpen)
         {
-            Debug.Log("Grip gauche pressé !");
+            animator.SetTrigger("Open");
+            Debug.Log("Ordinateur activé");
+        }
+        else
+        {
+            animator.SetTrigger("Close");
+            Debug.Log("Ordinateur désactivé");
         }
 
-        if (rightGrip > 0.8f)
-        {
-            Debug.Log("Grip droit pressé !");
-        }
+        isOpen = !isOpen;
+    }
+    public void OnAnimationEnd()
+    {
+        isAnimating = false;
+        Debug.Log("Animation terminée");
     }
 }
