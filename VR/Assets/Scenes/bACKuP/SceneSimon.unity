@@ -8637,12 +8637,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DisplayError
   brokenObjectScript: {fileID: 127102421}
   typeError: 0
-  baseTimeToDisplayCamera: 2000
-  timeToDisplayCamera: 2000
+  baseTimeToDisplayCamera: 5000
+  timeToDisplayCamera: 5000
   cameraCanvasDisplay: {fileID: 1324994711}
   TimeDisplay: {fileID: 1273942473}
-  baseNumberUsageRythmActivator: 70
-  numberUsageRythmActivator: 70
+  baseNumberUsageRythmActivator: 20
+  numberUsageRythmActivator: 20
 --- !u!1001 &1735357453
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8773,31 +8773,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8207157736820201807, guid: f906bfcdb5549704bae962434b5cfc10, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0
+      value: -0.0014468243
       objectReference: {fileID: 0}
     - target: {fileID: 8207157736820201807, guid: f906bfcdb5549704bae962434b5cfc10, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0.0022670457
       objectReference: {fileID: 0}
     - target: {fileID: 8207157736820201807, guid: f906bfcdb5549704bae962434b5cfc10, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 1
+      value: 0.9999956
       objectReference: {fileID: 0}
     - target: {fileID: 8207157736820201807, guid: f906bfcdb5549704bae962434b5cfc10, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0.0012604762
       objectReference: {fileID: 0}
     - target: {fileID: 8207157736820201807, guid: f906bfcdb5549704bae962434b5cfc10, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
+      value: 0.145
       objectReference: {fileID: 0}
     - target: {fileID: 8207157736820201807, guid: f906bfcdb5549704bae962434b5cfc10, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
+      value: 180.165
       objectReference: {fileID: 0}
     - target: {fileID: 8207157736820201807, guid: f906bfcdb5549704bae962434b5cfc10, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: -0.26
       objectReference: {fileID: 0}
     - target: {fileID: 8259241984904522496, guid: f906bfcdb5549704bae962434b5cfc10, type: 3}
       propertyPath: m_Name
@@ -10860,6 +10860,18 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 811980069148967372, guid: ec5687f7ae6f3eb4b812bf63ad6265cc, type: 3}
+      propertyPath: m_Color.b
+      value: 0.26415092
+      objectReference: {fileID: 0}
+    - target: {fileID: 811980069148967372, guid: ec5687f7ae6f3eb4b812bf63ad6265cc, type: 3}
+      propertyPath: m_Color.g
+      value: 0.26415092
+      objectReference: {fileID: 0}
+    - target: {fileID: 811980069148967372, guid: ec5687f7ae6f3eb4b812bf63ad6265cc, type: 3}
+      propertyPath: m_Color.r
+      value: 0.26415092
+      objectReference: {fileID: 0}
     - target: {fileID: 962858094580238842, guid: ec5687f7ae6f3eb4b812bf63ad6265cc, type: 3}
       propertyPath: m_Name
       value: Trap1
@@ -11103,6 +11115,10 @@ PrefabInstance:
     - target: {fileID: 6061640172581317263, guid: ec5687f7ae6f3eb4b812bf63ad6265cc, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -0.00000047683716
+      objectReference: {fileID: 0}
+    - target: {fileID: 6914006060812395998, guid: ec5687f7ae6f3eb4b812bf63ad6265cc, type: 3}
+      propertyPath: m_Value
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8008279978184957347, guid: ec5687f7ae6f3eb4b812bf63ad6265cc, type: 3}
       propertyPath: m_Camera
