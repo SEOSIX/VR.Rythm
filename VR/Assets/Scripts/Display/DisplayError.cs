@@ -44,8 +44,8 @@ public class DisplayError : MonoBehaviour
         baseNumberUsageRythmActivator = numberUsageRythmActivator;
 
         if (TimeDisplay != null)
-            TimeDisplay.maxValue = timeToDisplayCamera;
-        TimeDisplay.value = TimeDisplay.maxValue;
+            TimeDisplay.maxValue = baseTimeToDisplayCamera;
+        TimeDisplay.value = timeToDisplayCamera;
     }
 
     void Update()
