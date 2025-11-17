@@ -6,8 +6,12 @@ public class BrokenObjectScript : MonoBehaviour
 
     [Header("Genral link")] 
     public Material GreenMat;
+    public Material OrangeMat;
     public Material RedMat;
 
+    public AudioClip BIP;
+    public AudioSource bipSource;
+    
     public DisplayError displayError;
     
     [Header("Link General fixing device")] 
@@ -43,7 +47,9 @@ public class BrokenObjectScript : MonoBehaviour
         cameraLightRenderer.material = GreenMat;
         rythmLightRenderer.material = GreenMat;
         trapLightRenderer.material = GreenMat;
-        
+
+        bipSource.loop = false;
+
     }
     public void Update()
     {
@@ -80,6 +86,13 @@ public class BrokenObjectScript : MonoBehaviour
             
             cameraLightRenderer.material = RedMat;
         }
+        else if (isCameraBroke && fixingCameraCoroutIsRunning)
+        {
+            cameraDisplay.SetActive(false);
+            cameraCrash.SetActive(true);
+            
+            cameraLightRenderer.material = OrangeMat;
+        }
         else
         {
             cameraDisplay.SetActive(true);
@@ -97,6 +110,13 @@ public class BrokenObjectScript : MonoBehaviour
             rythmPanelCrash.SetActive(true);
 
             rythmLightRenderer.material = RedMat;
+        }
+        else if (isRythmPanelBroke && fixingRymthCoroutIsRunning)
+        {
+            rythmPanelDisplay.SetActive(false);
+            rythmPanelCrash.SetActive(true);
+
+            rythmLightRenderer.material = OrangeMat;
         }
         else
         {
@@ -130,8 +150,9 @@ public class BrokenObjectScript : MonoBehaviour
             }
             private IEnumerator RebootCameraCorout(int RebootTime)
             {
-                Debug.Log("fixing camera ...");
+                
                 fixingCameraCoroutIsRunning = true;
+                bipSource.clip = BIP;
                 yield return new WaitForSeconds(RebootTime);
                 displayError.timeToDisplayCamera = displayError.baseTimeToDisplayCamera;
                 displayError.TimeDisplay.value = displayError.timeToDisplayCamera;
@@ -140,7 +161,6 @@ public class BrokenObjectScript : MonoBehaviour
                 //changer avec le bin mask
                 displayError.typeError = DisplayError.ErrorType.none;
                 
-                Debug.Log("supposed to be fixed ...");
                 fixingCameraCoroutIsRunning = false;
             }
 
@@ -161,6 +181,7 @@ public class BrokenObjectScript : MonoBehaviour
             private IEnumerator RebootRythmCorout(int RebootTime)
             {
                 fixingRymthCoroutIsRunning = true;
+                bipSource.clip = BIP;
                 yield return new WaitForSeconds(RebootTime);
                 displayError.numberUsageRythmActivator = displayError.baseNumberUsageRythmActivator;
                 isRythmPanelBroke = false;
