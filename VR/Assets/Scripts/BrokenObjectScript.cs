@@ -7,6 +7,8 @@ public class BrokenObjectScript : MonoBehaviour
     [Header("Genral link")] 
     public Material GreenMat;
     public Material RedMat;
+
+    public DisplayError displayError;
     
     [Header("Link General fixing device")] 
     //public GameObject deviceScreen;
@@ -17,10 +19,12 @@ public class BrokenObjectScript : MonoBehaviour
     [Header("Link Camera")] 
     public GameObject cameraCrash;
     public GameObject cameraDisplay;
+    private bool fixingCameraCoroutIsRunning = false;
     
     [Header("Link Rythm Panel")] 
     public GameObject rythmPanelCrash;
     public GameObject rythmPanelDisplay;
+    private bool fixingRymthCoroutIsRunning = false;
     
     /*
     [Header("Link Trap")] 
@@ -28,8 +32,8 @@ public class BrokenObjectScript : MonoBehaviour
     public GameObject trapDisplay;
     */
     
-    [HideInInspector] public bool isCameraBroke = false;
-    [HideInInspector] public bool isRythmPanelBroke = false;
+     public bool isCameraBroke = false;
+     public bool isRythmPanelBroke = false;
     //[HideInInspector] public bool isTrapBroke = false;
     
     void Start()
@@ -117,7 +121,7 @@ public class BrokenObjectScript : MonoBehaviour
             // Activated by buton in game
             public void RebootCameraButon()
             {
-                if (!isCameraBroke)
+                if (!isCameraBroke || fixingCameraCoroutIsRunning)
                 {
                     return;
                 }
@@ -126,8 +130,18 @@ public class BrokenObjectScript : MonoBehaviour
             }
             private IEnumerator RebootCameraCorout(int RebootTime)
             {
+                Debug.Log("fixing camera ...");
+                fixingCameraCoroutIsRunning = true;
                 yield return new WaitForSeconds(RebootTime);
+                displayError.timeToDisplayCamera = displayError.baseTimeToDisplayCamera;
+                displayError.TimeDisplay.value = displayError.timeToDisplayCamera;
                 isCameraBroke = false;
+                
+                //changer avec le bin mask
+                displayError.typeError = DisplayError.ErrorType.none;
+                
+                Debug.Log("supposed to be fixed ...");
+                fixingCameraCoroutIsRunning = false;
             }
 
         #endregion
@@ -146,8 +160,15 @@ public class BrokenObjectScript : MonoBehaviour
             }
             private IEnumerator RebootRythmCorout(int RebootTime)
             {
+                fixingRymthCoroutIsRunning = true;
                 yield return new WaitForSeconds(RebootTime);
+                displayError.numberUsageRythmActivator = displayError.baseNumberUsageRythmActivator;
                 isRythmPanelBroke = false;
+                
+                //changer avec le bin mask
+                displayError.typeError = DisplayError.ErrorType.none;
+                
+                fixingRymthCoroutIsRunning = false;
             }
 
         #endregion

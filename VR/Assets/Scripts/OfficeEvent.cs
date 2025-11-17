@@ -15,12 +15,14 @@ public class OfficeEvent : MonoBehaviour
     public GameObject rightLight;
     public GameObject midleLight;
     
+    /*
     [Header("Jumpscare part")]
     public GameObject pictureInWorld;
     public bool animInPlay;
     public bool jumpscareActive;
     public Animator anim;
-
+    */
+    
     [Header("Sound Source")] 
     public AudioSource musiqueSource;
     public AudioSource soundEffectSource;
@@ -46,8 +48,8 @@ public class OfficeEvent : MonoBehaviour
         PlayMusic(musicDeFond,true);
         
         //Jumpscare
-        pictureInWorld.SetActive(false);
-        animInPlay = false;
+        //pictureInWorld.SetActive(false);
+        //animInPlay = false;
         
     }
 
@@ -92,6 +94,7 @@ public class OfficeEvent : MonoBehaviour
         soundEffectSource.Play();
     }
     
+    /*
     public IEnumerator JumpscareAnimCorout()
     {
         jumpscareActive = true;
@@ -115,6 +118,7 @@ public class OfficeEvent : MonoBehaviour
         
         animInPlay = false;
     }
+    */
     
     public void PlayMusic(AudioClip soundEffect,bool loop)
     {
@@ -126,7 +130,8 @@ public class OfficeEvent : MonoBehaviour
         
         musiqueSource.Play();
     }
-
+    
+    /*
     void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.CompareTag("Ennemy") && !animInPlay)
@@ -134,5 +139,5 @@ public class OfficeEvent : MonoBehaviour
             StartCoroutine(JumpscareAnimCorout());
         }
     }
-    
+    */
 }
