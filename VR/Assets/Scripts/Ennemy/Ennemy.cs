@@ -104,7 +104,7 @@ public class Ennemy : MonoBehaviour, IEnnemy
 
     public void Attacking()
     {
-        
+        GameOverScript.LoadScene(2);
     }
 
     public void ReturnFromStart()
