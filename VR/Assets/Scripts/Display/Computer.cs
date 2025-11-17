@@ -4,7 +4,7 @@ using UnityEngine;
 public class Computer : MonoBehaviour
 {
     [SerializeField] private Animator animator;
-    private bool isOpen = false;
+    public static bool isOpen = false;
     private bool isAnimating = false;
 
     private void Start()

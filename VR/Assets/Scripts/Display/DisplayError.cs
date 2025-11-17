@@ -50,13 +50,22 @@ public class DisplayError : MonoBehaviour
 
     void Update()
     {
-        Timer(timeToDisplayCamera);
 		ReportBug();
+        if (Computer.isOpen)
+        {
+            Timer(timeToDisplayCamera, true);
+        }
+        else
+        {
+            Timer(timeToDisplayCamera, false);
+        }
     }
     
     
-    public void Timer(float timeToDisplay)
+    public void Timer(float timeToDisplay, bool canDecrease)
     {
+        if (!canDecrease)
+            return;
         timeToDisplay -= Time.deltaTime;
         TimeDisplay.value--;
         if (TimeDisplay.value <= 0f)
