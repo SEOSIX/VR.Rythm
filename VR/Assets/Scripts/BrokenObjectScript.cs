@@ -43,6 +43,7 @@ public class BrokenObjectScript : MonoBehaviour
     void Start()
     {
         //deviceScreen.SetActive(false);
+        bipSource.clip = BIP;
         
         cameraLightRenderer.material = GreenMat;
         rythmLightRenderer.material = GreenMat;
@@ -152,14 +153,16 @@ public class BrokenObjectScript : MonoBehaviour
             {
                 
                 fixingCameraCoroutIsRunning = true;
-                bipSource.clip = BIP;
+                
+                bipSource.Play();
+                
                 yield return new WaitForSeconds(RebootTime);
                 displayError.timeToDisplayCamera = displayError.baseTimeToDisplayCamera;
                 displayError.TimeDisplay.value = displayError.timeToDisplayCamera;
                 isCameraBroke = false;
                 
                 //changer avec le bin mask
-                displayError.typeError = DisplayError.ErrorType.none;
+                displayError.CameraIsBroke = false;
                 
                 fixingCameraCoroutIsRunning = false;
             }
@@ -181,13 +184,15 @@ public class BrokenObjectScript : MonoBehaviour
             private IEnumerator RebootRythmCorout(int RebootTime)
             {
                 fixingRymthCoroutIsRunning = true;
-                bipSource.clip = BIP;
+                
+                bipSource.Play();
+                
                 yield return new WaitForSeconds(RebootTime);
                 displayError.numberUsageRythmActivator = displayError.baseNumberUsageRythmActivator;
                 isRythmPanelBroke = false;
                 
                 //changer avec le bin mask
-                displayError.typeError = DisplayError.ErrorType.none;
+                displayError.PanelDisplayIsBroke = false;
                 
                 fixingRymthCoroutIsRunning = false;
             }
