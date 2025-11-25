@@ -18,6 +18,9 @@ namespace DefaultNamespace
         public GameObject[] imagePrefabsPoint2;
         public GameObject[] imagePrefabsPoint3;
 
+        [Header("DetectIfCorrect")] 
+        [SerializeField] private Image detect;
+
         [Header("Trigger & Movement")] public RectTransform triggerZone;
         public float fallSpeed = 2f;
         public int maxPerSpawnPoint = 3;
@@ -297,15 +300,36 @@ namespace DefaultNamespace
                 Debug.Log("Tous les traps ont été correctement gérés !");
                 SoundManager.ResetPitch();
                 OnAllPatternsCleared?.Invoke();
+                StartCoroutine(FadeImageColor(detect, Color.black, Color.green, 1f));
                 DisplayError.instance.DecreaseUsageRythms(DisplayError.instance.numberUsageRythmActivator);
                 
             }
             else
             {
                 SoundManager.ResetPitch();
-                Debug.Log("Une ou plusieurs erreurs détectées.");
+                StartCoroutine(FadeImageColor(detect, Color.black, Color.red, 1f));
                 DisplayError.instance.DecreaseUsageRythms(DisplayError.instance.numberUsageRythmActivator);
             }
+        }
+        
+        IEnumerator FadeImageColor(Image img, Color fromColor, Color toColor, float time)
+        {
+            float elapsed = 0f;
+            while (elapsed < time)
+            {
+                elapsed += Time.deltaTime;
+                img.color = Color.Lerp(fromColor, toColor, elapsed / time);
+                yield return null;
+            }
+            elapsed = 0f;
+            while (elapsed < time)
+            {
+                elapsed += Time.deltaTime;
+                img.color = Color.Lerp(toColor, fromColor, elapsed / time);
+                yield return null;
+            }
+
+            img.color = fromColor;
         }
 
         #endregion

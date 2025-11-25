@@ -9,7 +9,7 @@ public class Computer : MonoBehaviour
 
     private void Start()
     {
-        animator.SetTrigger("Close");
+        animator.SetTrigger("Open");
         isOpen = false;
     }
 

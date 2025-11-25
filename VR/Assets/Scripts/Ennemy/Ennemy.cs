@@ -40,15 +40,15 @@ public class Ennemy : MonoBehaviour, IEnnemy
         {
             agent.SetDestination(targetPoint.position);
         }
+
         if (transform.position != lastPosition)
         {
             isMoving = true;
             lastPosition = transform.position;
         }
         else
-        {
             isMoving = false;
-        }
+        
         if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
         {
             Attacking();
@@ -99,7 +99,6 @@ public class Ennemy : MonoBehaviour, IEnnemy
 
     public void Stop(float timeToStop)
     {
-        throw new System.NotImplementedException();
     }
 
     public void Attacking()

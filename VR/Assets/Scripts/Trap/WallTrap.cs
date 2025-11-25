@@ -17,11 +17,11 @@ namespace DefaultNamespace
             if (DisplayManager.instance != null)
             {
                 DisplayManager.instance.OnAllPatternsCleared += ShowWall;
-                Debug.Log("pipi");
+                Debug.Log("correct");
             }
             else
             {
-                Debug.Log("caca");
+                Debug.Log("null");
             }
         }
 
@@ -48,7 +48,7 @@ namespace DefaultNamespace
             if (!isActivating)
                 return;
             wallCube.SetActive(true);
-            
+            TrapManager.ChangeColor(Color.red);
             isActivating = false;
         }
         
@@ -56,6 +56,7 @@ namespace DefaultNamespace
         {
             base.OnDurationEnded();
             wallCube.SetActive(false);
+            TrapManager.ChangeColor(Color.green);
         }
     }
 }
