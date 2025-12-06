@@ -8,7 +8,12 @@ public class DisplayError : MonoBehaviour
 {
     public static DisplayError instance { get; private set; }
     public BrokenObjectScript brokenObjectScript;
+
+    [HideInInspector] public bool CameraIsBroke = false;
+    [HideInInspector] public bool PanelDisplayIsBroke = false;
+    [HideInInspector] public bool Door = false;
     
+    /*
     public enum ErrorType
     {
         none,
@@ -17,7 +22,8 @@ public class DisplayError : MonoBehaviour
         Door
     }
     public ErrorType typeError;
-
+    */
+    
     [Header("Camera Settings")]
     public float baseTimeToDisplayCamera;
     public float timeToDisplayCamera; 
@@ -27,9 +33,6 @@ public class DisplayError : MonoBehaviour
     [Header("Rhythm Settings")]
     public int baseNumberUsageRythmActivator; 
     public int numberUsageRythmActivator;
-
-
-
     
 
     private void Awake()
@@ -39,7 +42,7 @@ public class DisplayError : MonoBehaviour
     
     private void Start()
     {
-        typeError = ErrorType.none;
+        //typeError = ErrorType.none;
         baseTimeToDisplayCamera = timeToDisplayCamera;
         baseNumberUsageRythmActivator = numberUsageRythmActivator;
 
@@ -70,7 +73,8 @@ public class DisplayError : MonoBehaviour
         TimeDisplay.value--;
         if (TimeDisplay.value <= 0f)
         {
-            typeError = ErrorType.Camera;
+            //typeError = ErrorType.Camera;
+            CameraIsBroke = true;
         }
     }
 
@@ -80,25 +84,24 @@ public class DisplayError : MonoBehaviour
         usages --;
         if (usages <= 0)
         {
-            typeError = ErrorType.PanelDisplay;
+            //typeError = ErrorType.PanelDisplay;
+            PanelDisplayIsBroke = true;
         }
     }
     
+    
     private void ReportBug()
     {
-        switch (typeError)
+        if (CameraIsBroke)
         {
-            case (ErrorType.Camera) :
-                brokenObjectScript.isCameraBroke = true;
-                break;
-            
-            case (ErrorType.Door) :
-                //brokenObjectScript.isTrapBroke = true;
-                break;
-            
-            case (ErrorType.PanelDisplay) :
-                brokenObjectScript.isRythmPanelBroke = true;
-                break;
+            brokenObjectScript.isCameraBroke = true;
         }
+
+        if (PanelDisplayIsBroke)
+        {
+            brokenObjectScript.isRythmPanelBroke = true;
+        }
+        
     }
+    
 }
