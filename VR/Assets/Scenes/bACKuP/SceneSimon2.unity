@@ -1922,84 +1922,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 725883527}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &199234210
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 725883527}
-    m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: 052f313cf966deb40abf8be31590e8c6, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 48.82823
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 052f313cf966deb40abf8be31590e8c6, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 51.51905
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 052f313cf966deb40abf8be31590e8c6, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 46.572998
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 052f313cf966deb40abf8be31590e8c6, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 3.6440003
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 052f313cf966deb40abf8be31590e8c6, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.405
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 052f313cf966deb40abf8be31590e8c6, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 2.0880008
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 052f313cf966deb40abf8be31590e8c6, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.6363078
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 052f313cf966deb40abf8be31590e8c6, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.30840304
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 052f313cf966deb40abf8be31590e8c6, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.30840304
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 052f313cf966deb40abf8be31590e8c6, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.6363078
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 052f313cf966deb40abf8be31590e8c6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 052f313cf966deb40abf8be31590e8c6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 141.717
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 052f313cf966deb40abf8be31590e8c6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: -7511558181221131132, guid: 052f313cf966deb40abf8be31590e8c6, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 36b1731671a488443a0954f15aec8ece, type: 2}
-    - target: {fileID: 919132149155446097, guid: 052f313cf966deb40abf8be31590e8c6, type: 3}
-      propertyPath: m_Name
-      value: TV
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 052f313cf966deb40abf8be31590e8c6, type: 3}
---- !u!4 &199234211 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 052f313cf966deb40abf8be31590e8c6, type: 3}
-  m_PrefabInstance: {fileID: 199234210}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &212158884 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a452f1dc6deb50e44b49eaeb6823543a, type: 3}
@@ -5258,7 +5180,6 @@ Transform:
   - {fileID: 1976660845}
   - {fileID: 221607634}
   - {fileID: 766577097}
-  - {fileID: 199234211}
   - {fileID: 317018833}
   - {fileID: 776609400}
   m_Father: {fileID: 0}
@@ -9338,7 +9259,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DisplayError
   brokenObjectScript: {fileID: 127102421}
-  typeError: 0
+  CameraIsBroke: 0
+  PanelDisplayIsBroke: 0
+  Door: 0
   baseTimeToDisplayCamera: 5000
   timeToDisplayCamera: 5000
   cameraCanvasDisplay: {fileID: 1324994711}

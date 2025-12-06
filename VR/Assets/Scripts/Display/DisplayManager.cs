@@ -24,12 +24,13 @@ namespace DefaultNamespace
         [Header("Trigger & Movement")] public RectTransform triggerZone;
         public float fallSpeed = 2f;
         public int maxPerSpawnPoint = 3;
-
         private List<RectTransform>[] activeImages;
         private Dictionary<RectTransform, float> customSpeeds = new Dictionary<RectTransform, float>();
-
-        private bool allCorrect = true;
+        private bool allCorrect = true; 
         public bool AllCorect => allCorrect;
+
+        private int prefabsSpawned;
+        private int prefabsTriggers;
         
         public event Action OnAllPatternsCleared;
 
@@ -93,6 +94,7 @@ namespace DefaultNamespace
                 }
 
                 GameObject newImg = Instantiate(prefab, spawnPoints[spawnIndex]);
+                prefabsSpawned++;
                 RectTransform rect = newImg.GetComponent<RectTransform>();
                 rect.anchoredPosition = Vector2.zero;
 
@@ -188,9 +190,13 @@ namespace DefaultNamespace
                         if (imagesInTrigger.Contains(fi))
                         {
                             imagesInTrigger.Remove(fi);
+                            allCorrect = false;
+                            prefabsTriggers++; 
                             Destroy(img.gameObject, 1f);
                             activeImages[i].RemoveAt(j);
                             customSpeeds.Remove(img);
+                            if (AreAllPatternsCleared())
+                                IsCorrect();
                         }
                     }
                 }
@@ -205,10 +211,6 @@ namespace DefaultNamespace
             if (fi != null && !imagesInTrigger.Contains(fi))
             {
                 imagesInTrigger.Add(fi);
-                for (int i = 0; i < imagesInTrigger.Count; i++)
-                {
-                    Debug.Log(imagesInTrigger[i]);
-                }
             }
         }
 
@@ -252,7 +254,6 @@ namespace DefaultNamespace
                     if (customSpeeds.ContainsKey(rect))
                         customSpeeds.Remove(rect);
                     Destroy(fi.gameObject);
-
                     allCorrect = true;
                     if (AreAllPatternsCleared())
                         IsCorrect();
@@ -275,41 +276,41 @@ namespace DefaultNamespace
         {
             if (rect == null) return;
 
-            for (int k = 0; k < activeImages.Length; k++)
+            for (int i = 0; i < activeImages.Length; i++)
             {
-                if (activeImages[k].Remove(rect))
+                if (activeImages[i].Remove(rect))
                     return;
             }
         }
 
         public bool AreAllPatternsCleared()
         {
-            for (int i = 0; i < activeImages.Length; i++)
-            {
-                if (activeImages[i].Count > 0)
-                    return false;
-            }
-
-            return imagesInTrigger.Count == 0;
+            return prefabsTriggers == prefabsSpawned;
         }
         
         void IsCorrect()
         {
             if (AreAllPatternsCleared())
             {
-                Debug.Log("Tous les traps ont été correctement gérés !");
+                
+                prefabsTriggers = 0;
+                prefabsSpawned = 0;
                 SoundManager.ResetPitch();
                 OnAllPatternsCleared?.Invoke();
-                StartCoroutine(FadeImageColor(detect, Color.black, Color.green, 1f));
+                StartCoroutine(FadeImageColor(detect, Color.black, Color.green, 0.5f));
                 DisplayError.instance.DecreaseUsageRythms(DisplayError.instance.numberUsageRythmActivator);
                 
             }
             else
             {
+                prefabsTriggers = 0;
+                prefabsSpawned = 0;
                 SoundManager.ResetPitch();
-                StartCoroutine(FadeImageColor(detect, Color.black, Color.red, 1f));
+                StartCoroutine(FadeImageColor(detect, Color.black, Color.red, 0.5f));
                 DisplayError.instance.DecreaseUsageRythms(DisplayError.instance.numberUsageRythmActivator);
             }
+            allCorrect = true;
+            
         }
         
         IEnumerator FadeImageColor(Image img, Color fromColor, Color toColor, float time)

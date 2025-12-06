@@ -17,11 +17,6 @@ namespace DefaultNamespace
             if (DisplayManager.instance != null)
             {
                 DisplayManager.instance.OnAllPatternsCleared += ShowWall;
-                Debug.Log("correct");
-            }
-            else
-            {
-                Debug.Log("null");
             }
         }
 
