@@ -24,13 +24,13 @@ namespace DefaultNamespace
         [Header("Trigger & Movement")] public RectTransform triggerZone;
         public float fallSpeed = 2f;
         public int maxPerSpawnPoint = 3;
+
         private List<RectTransform>[] activeImages;
         private Dictionary<RectTransform, float> customSpeeds = new Dictionary<RectTransform, float>();
-        private bool allCorrect = true; 
-        public bool AllCorect => allCorrect;
 
-        private int prefabsSpawned;
-        private int prefabsTriggers;
+        private bool allCorrect = true;
+        private bool hasMissed = false;
+        public bool AllCorect => allCorrect;
         
         public event Action OnAllPatternsCleared;
 
@@ -94,7 +94,6 @@ namespace DefaultNamespace
                 }
 
                 GameObject newImg = Instantiate(prefab, spawnPoints[spawnIndex]);
-                prefabsSpawned++;
                 RectTransform rect = newImg.GetComponent<RectTransform>();
                 rect.anchoredPosition = Vector2.zero;
 
@@ -183,6 +182,7 @@ namespace DefaultNamespace
                         if (!imagesInTrigger.Contains(fi))
                         {
                             OnObjectTriggered(img.gameObject);
+                            hasMissed = false;
                         }
                     }
                     else
@@ -190,13 +190,12 @@ namespace DefaultNamespace
                         if (imagesInTrigger.Contains(fi))
                         {
                             imagesInTrigger.Remove(fi);
-                            allCorrect = false;
-                            prefabsTriggers++; 
                             Destroy(img.gameObject, 1f);
                             activeImages[i].RemoveAt(j);
                             customSpeeds.Remove(img);
-                            if (AreAllPatternsCleared())
-                                IsCorrect();
+
+                            hasMissed = true;
+                            IsCorrect();
                         }
                     }
                 }
@@ -254,6 +253,7 @@ namespace DefaultNamespace
                     if (customSpeeds.ContainsKey(rect))
                         customSpeeds.Remove(rect);
                     Destroy(fi.gameObject);
+
                     allCorrect = true;
                     if (AreAllPatternsCleared())
                         IsCorrect();
@@ -276,41 +276,44 @@ namespace DefaultNamespace
         {
             if (rect == null) return;
 
-            for (int i = 0; i < activeImages.Length; i++)
+            for (int k = 0; k < activeImages.Length; k++)
             {
-                if (activeImages[i].Remove(rect))
+                if (activeImages[k].Remove(rect))
                     return;
             }
         }
 
         public bool AreAllPatternsCleared()
         {
-            return prefabsTriggers == prefabsSpawned;
+            if (hasMissed)
+            {
+                return false;
+            }
+            for (int i = 0; i < activeImages.Length; i++)
+            {
+                if (activeImages[i].Count > 0)
+                    return false;
+            }
+
+            return imagesInTrigger.Count == 0;
         }
         
         void IsCorrect()
         {
             if (AreAllPatternsCleared())
             {
-                
-                prefabsTriggers = 0;
-                prefabsSpawned = 0;
                 SoundManager.ResetPitch();
                 OnAllPatternsCleared?.Invoke();
-                StartCoroutine(FadeImageColor(detect, Color.black, Color.green, 0.5f));
+                StartCoroutine(FadeImageColor(detect, Color.black, Color.green, 1f));
                 DisplayError.instance.DecreaseUsageRythms(DisplayError.instance.numberUsageRythmActivator);
                 
             }
             else
             {
-                prefabsTriggers = 0;
-                prefabsSpawned = 0;
                 SoundManager.ResetPitch();
-                StartCoroutine(FadeImageColor(detect, Color.black, Color.red, 0.5f));
+                StartCoroutine(FadeImageColor(detect, Color.black, Color.red, 1f));
                 DisplayError.instance.DecreaseUsageRythms(DisplayError.instance.numberUsageRythmActivator);
             }
-            allCorrect = true;
-            
         }
         
         IEnumerator FadeImageColor(Image img, Color fromColor, Color toColor, float time)
