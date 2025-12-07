@@ -10,7 +10,7 @@ namespace DefaultNamespace
     {
         public static TrapManager instance { get; private set; }
         public List<Trap> traps = new List<Trap>();
-
+        [SerializeField] private Button startRythmutton;
         public static Image lastSelected;
         
         private void Awake()
@@ -18,6 +18,14 @@ namespace DefaultNamespace
             instance = this;
         }
 
+
+        public void WaitForActivating(int i)
+        {
+            startRythmutton.onClick.AddListener(() => ActivateTrap(i));
+            //Monitor.SetActive(true);
+        }
+        
+        
         public void ActivateTrap(int index)
         {
             traps[index].ActivateTrap();
