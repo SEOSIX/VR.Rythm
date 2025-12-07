@@ -10,7 +10,7 @@ public class Computer : MonoBehaviour
     private void Start()
     {
         animator.SetTrigger("Open");
-        isOpen = false;
+        isOpen = true;
     }
 
     public void Toggle()

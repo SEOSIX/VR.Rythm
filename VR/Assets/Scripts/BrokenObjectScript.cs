@@ -57,24 +57,7 @@ public class BrokenObjectScript : MonoBehaviour
 
         CheckCamera();
         CheckRythmPanel();
-
-        //USE later if needed
-        /*
-        if (isTrapBroke)
-        {
-            trapDisplay.SetActive(false);
-            trapCrash.SetActive(true);
-
-            trapLightRenderer.material = RedMat;
-        }
-        else
-        {
-            trapDisplay.SetActive(true);
-            trapCrash.SetActive(false);
-
-            trapLightRenderer.material = GreenMat;
-        }
-        */
+     
 
     }
 
@@ -98,7 +81,7 @@ public class BrokenObjectScript : MonoBehaviour
         {
             cameraDisplay.SetActive(true);
             cameraCrash.SetActive(false);
-            
+           
             cameraLightRenderer.material = GreenMat;
         }
     }

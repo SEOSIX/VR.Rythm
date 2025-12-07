@@ -13,17 +13,6 @@ public class DisplayError : MonoBehaviour
     [HideInInspector] public bool PanelDisplayIsBroke = false;
     [HideInInspector] public bool Door = false;
     
-    /*
-    public enum ErrorType
-    {
-        none,
-        Camera,
-        PanelDisplay,
-        Door
-    }
-    public ErrorType typeError;
-    */
-    
     [Header("Camera Settings")]
     public float baseTimeToDisplayCamera;
     public float timeToDisplayCamera; 

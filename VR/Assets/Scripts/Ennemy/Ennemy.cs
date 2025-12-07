@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using DefaultNamespace;
 using UnityEngine;
@@ -36,6 +37,7 @@ public class Ennemy : MonoBehaviour, IEnnemy
 
     private void Update()
     {
+        float dist = agent.remainingDistance;
         if (agent != null && targetPoint != null && !isStopped)
         {
             agent.SetDestination(targetPoint.position);
@@ -49,7 +51,7 @@ public class Ennemy : MonoBehaviour, IEnnemy
         else
             isMoving = false;
         
-        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+        if (dist != Mathf.Infinity && agent.pathStatus==NavMeshPathStatus.PathComplete && agent.remainingDistance !=0)
         {
             Attacking();
         }
