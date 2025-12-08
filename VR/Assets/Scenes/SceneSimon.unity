@@ -4827,10 +4827,6 @@ MonoBehaviour:
   leftLight: {fileID: 86379878}
   rightLight: {fileID: 1700896600}
   midleLight: {fileID: 482301774}
-  pictureInWorld: {fileID: 0}
-  animInPlay: 0
-  jumpscareActive: 0
-  anim: {fileID: 0}
   musiqueSource: {fileID: 98175677}
   soundEffectSource: {fileID: 1213196825}
   musicDeFond: {fileID: 8300000, guid: fc65b64105626a740bed5a9cece30ed7, type: 3}
@@ -11553,6 +11549,7 @@ MonoBehaviour:
   - {fileID: 829900243}
   - {fileID: 259493430}
   - {fileID: 703186746}
+  startRythmutton: {fileID: 0}
 --- !u!114 &1732870946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11581,6 +11578,7 @@ MonoBehaviour:
   - {fileID: 3896973812578179935, guid: 62a1819c115854f43ac2965d2ba54d46, type: 3}
   - {fileID: 3896973812578179935, guid: 1d0f602aa1f2f8d409600dfdb54334aa, type: 3}
   - {fileID: 3896973812578179935, guid: b4728a7536c0e534dbdb22b0c5528e6f, type: 3}
+  detect: {fileID: 0}
   triggerZone: {fileID: 1712998961}
   fallSpeed: 1.58
   maxPerSpawnPoint: 3
@@ -11614,12 +11612,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DisplayError
   brokenObjectScript: {fileID: 0}
-  typeError: 0
+  CameraIsBroke: 0
+  PanelDisplayIsBroke: 0
+  Door: 0
   baseTimeToDisplayCamera: 0
   timeToDisplayCamera: 0
+  cameraCanvasDisplay: {fileID: 0}
+  TimeDisplay: {fileID: 0}
   baseNumberUsageRythmActivator: 0
   numberUsageRythmActivator: 0
-  TimeDisplay: {fileID: 0}
 --- !u!1 &1741298519
 GameObject:
   m_ObjectHideFlags: 0
@@ -15655,11 +15656,11 @@ PrefabInstance:
     - target: {fileID: 340202979644003468, guid: f906bfcdb5549704bae962434b5cfc10, type: 3}
       propertyPath: button
       value: 
-      objectReference: {fileID: 8299657387888125792}
+      objectReference: {fileID: 0}
     - target: {fileID: 5615804787050934466, guid: f906bfcdb5549704bae962434b5cfc10, type: 3}
       propertyPath: button
       value: 
-      objectReference: {fileID: 8299657387888125793}
+      objectReference: {fileID: 0}
     - target: {fileID: 8207157736820201807, guid: f906bfcdb5549704bae962434b5cfc10, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.804
@@ -15707,27 +15708,12 @@ PrefabInstance:
     - target: {fileID: 8933442129786892080, guid: f906bfcdb5549704bae962434b5cfc10, type: 3}
       propertyPath: button
       value: 
-      objectReference: {fileID: 8299657387888125791}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f906bfcdb5549704bae962434b5cfc10, type: 3}
---- !u!1 &8299657387888125791 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6080793008465708885, guid: f906bfcdb5549704bae962434b5cfc10, type: 3}
-  m_PrefabInstance: {fileID: 8299657387888125790}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &8299657387888125792 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3108050548377926889, guid: f906bfcdb5549704bae962434b5cfc10, type: 3}
-  m_PrefabInstance: {fileID: 8299657387888125790}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &8299657387888125793 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7094858246814963879, guid: f906bfcdb5549704bae962434b5cfc10, type: 3}
-  m_PrefabInstance: {fileID: 8299657387888125790}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
