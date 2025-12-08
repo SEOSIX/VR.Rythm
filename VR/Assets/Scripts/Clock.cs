@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Clock : MonoBehaviour
 {
-
+    
     [Header("Réglages de l'horloge")]
     public int startHour = 1;
     public int startMinute = 45;

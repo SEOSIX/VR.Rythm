@@ -1,5 +1,7 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class NightTimer : MonoBehaviour
 {
@@ -7,43 +9,42 @@ public class NightTimer : MonoBehaviour
     public Light spotLight;
 
     [Header("Timer Settings")]
-    public float nightDurationInSeconds = 360f; 
-    // 360s = 6 min -> 1 min = 1h de nuit (modifiable)
+    public float nightDurationInSeconds = 360f;
 
-    public float currentTime = 0f;
+    public float currentTime;
+    private bool canDecreaseTime = true;
     private float startIntensity;
 
     void Start()
     {
+        currentTime = nightDurationInSeconds;
         startIntensity = spotLight.intensity;
     }
 
     void Update()
     {
-        currentTime += Time.deltaTime;
-        
-        float hours = Mathf.Lerp(0f, 6f, currentTime / nightDurationInSeconds);
-        float clampedHours = Mathf.Clamp(hours, 0f, 6f);
-        
-        int h = Mathf.FloorToInt(clampedHours);
-        int m = Mathf.FloorToInt((clampedHours - h) * 60);
-
-        timerText.text = $"{h:00}:{m:00}";
-
-        //  DIMINUTION DE LA LUMIÈRE ENTRE 5h ET 6h 
-        if (clampedHours >= 1f)
+        if (canDecreaseTime)
         {
-            float t = Mathf.InverseLerp(1f, 5f, clampedHours);  
-            spotLight.intensity = Mathf.Lerp(startIntensity, 0f, t);
+            canDecreaseTime = false;
+            StartCoroutine(DecreaseTimeCorout());
         }
 
-        //Reset
-        /*
-        if (currentTime >= nightDurationInSeconds)
+        spotLight.intensity = startIntensity * (currentTime / 100);
+        
+        if (currentTime <= 0f)
         {
-            currentTime = 0f;
-            spotLight.intensity = startIntensity;
+            SceneManager.LoadScene(0);
         }
-        */
+    }
+
+    IEnumerator DecreaseTimeCorout()
+    {
+
+        yield return new WaitForSeconds(1f);
+
+        currentTime -= 1;
+        canDecreaseTime = true;
+        timerText.text = $"{currentTime}";
+
     }
 }
