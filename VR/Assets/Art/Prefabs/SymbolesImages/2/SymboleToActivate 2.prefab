@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 7605463100082560348}
   - component: {fileID: 8101730332989882273}
   - component: {fileID: 3069375315492560228}
-  - component: {fileID: -6305802434260154145}
+  - component: {fileID: -2195537797916123362}
   m_Layer: 5
-  m_Name: SymboleToActivate 4
+  m_Name: SymboleToActivate 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -66,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 1330062097, guid: 092329240c3bdf14491b6cca7e94b7f7, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -76,7 +76,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &-6305802434260154145
+--- !u!114 &-2195537797916123362
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

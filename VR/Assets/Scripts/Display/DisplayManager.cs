@@ -306,10 +306,12 @@ namespace DefaultNamespace
                 OnAllPatternsCleared?.Invoke();
                 StartCoroutine(FadeImageColor(detect, Color.black, Color.green, 1f));
                 DisplayError.instance.DecreaseUsageRythms(DisplayError.instance.numberUsageRythmActivator);
-                
+                TrapManager.tryActivateTrap = false;
+
             }
             else
             {
+                TrapManager.tryActivateTrap = false;
                 SoundManager.ResetPitch();
                 StartCoroutine(FadeImageColor(detect, Color.black, Color.red, 1f));
                 DisplayError.instance.DecreaseUsageRythms(DisplayError.instance.numberUsageRythmActivator);
