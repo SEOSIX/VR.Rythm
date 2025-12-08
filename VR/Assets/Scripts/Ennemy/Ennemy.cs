@@ -19,6 +19,9 @@ public class Ennemy : MonoBehaviour, IEnnemy
     private bool isStopped = false;
     private Vector3 lastPosition;
     private bool isMoving;
+    
+    // 1
+    public bool inRewindZone1 = false;
 
     private void Awake()
     {
@@ -64,6 +67,19 @@ public class Ennemy : MonoBehaviour, IEnnemy
             StopMovement();
             StartCoroutine(WaitForWallDeactivation(other.gameObject));
         }
+        
+        if (other.CompareTag("RewindZone"))
+        {
+            inRewindZone1 = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("RewindZone"))
+        {
+            inRewindZone1 = false;
+        }
     }
 
     private IEnumerator WaitForWallDeactivation(GameObject wall)
@@ -90,7 +106,7 @@ public class Ennemy : MonoBehaviour, IEnnemy
         agent.SetDestination(targetPoint.position);
     }
 
-    public void Walknig(float speed)
+    public void Walking(float speed)
     {
         if (agent == null || targetPoint == null || isStopped) return;
 
@@ -107,12 +123,13 @@ public class Ennemy : MonoBehaviour, IEnnemy
     {
         GameOverScript.LoadScene(2);
     }
+    
 
-    public void ReturnFromStart()
+    public void ReturnFromStart(GameObject warpTarget)
     {
-        if (agent != null && targetPoint != null)
+        if (agent != null && warpTarget != null)
         {
-            agent.Warp(targetPoint.position);
+            agent.Warp(warpTarget.transform.position);
         }
     }
 

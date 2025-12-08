@@ -1,10 +1,12 @@
-﻿namespace DefaultNamespace
+﻿using UnityEngine;
+
+namespace DefaultNamespace
 {
     public interface IEnnemy
     {
-        void Walknig(float speed);
+        void Walking(float speed);
         void Stop(float  timeToStop);
         void Attacking();
-        void ReturnFromStart();
+        void ReturnFromStart(GameObject warpTarget);
     }
 }
