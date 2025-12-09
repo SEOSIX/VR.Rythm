@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BrokenObjectScript : MonoBehaviour
 {
@@ -19,6 +20,8 @@ public class BrokenObjectScript : MonoBehaviour
     public Renderer cameraLightRenderer;
     public Renderer rythmLightRenderer;
     public Renderer trapLightRenderer;
+    public Slider fillingBar;
+    
     
     [Header("Link Camera")] 
     public GameObject cameraCrash;
@@ -50,6 +53,9 @@ public class BrokenObjectScript : MonoBehaviour
         trapLightRenderer.material = GreenMat;
 
         bipSource.loop = false;
+
+        fillingBar.maxValue = 100;
+        fillingBar.value = 0;
 
     }
     public void Update()
@@ -130,16 +136,16 @@ public class BrokenObjectScript : MonoBehaviour
                     return;
                 }
                 
-                StartCoroutine(RebootCameraCorout(Random.Range(7, 20)));
+                StartCoroutine(RebootCameraCorout());
             }
-            private IEnumerator RebootCameraCorout(int RebootTime)
+            private IEnumerator RebootCameraCorout()
             {
                 
                 fixingCameraCoroutIsRunning = true;
                 
                 bipSource.Play();
-                
-                yield return new WaitForSeconds(RebootTime);
+
+                yield return StartCoroutine(SliderFillingCorout());
                 displayError.timeToDisplayCamera = displayError.baseTimeToDisplayCamera;
                 displayError.TimeDisplay.value = displayError.timeToDisplayCamera;
                 isCameraBroke = false;
@@ -157,20 +163,20 @@ public class BrokenObjectScript : MonoBehaviour
             // Activated by buton in game
             public void RebootRythmButon()
             {
-                if (!isRythmPanelBroke)
+                if (!isRythmPanelBroke || fixingRymthCoroutIsRunning)
                 {
                     return;
                 }
                 
-                StartCoroutine(RebootRythmCorout(Random.Range(7, 20)));
+                StartCoroutine(RebootRythmCorout());
             }
-            private IEnumerator RebootRythmCorout(int RebootTime)
+            private IEnumerator RebootRythmCorout()
             {
                 fixingRymthCoroutIsRunning = true;
                 
                 bipSource.Play();
                 
-                yield return new WaitForSeconds(RebootTime);
+                yield return StartCoroutine(SliderFillingCorout());
                 displayError.numberUsageRythmActivator = displayError.baseNumberUsageRythmActivator;
                 isRythmPanelBroke = false;
                 
@@ -204,6 +210,12 @@ public class BrokenObjectScript : MonoBehaviour
         #endregion
         */
 
+        IEnumerator SliderFillingCorout()
+        {
+
+            yield return Mathf.Lerp(fillingBar.value, fillingBar.maxValue, 5);
+            
+        }
     #endregion
     
     
