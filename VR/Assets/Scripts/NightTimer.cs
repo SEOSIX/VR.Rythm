@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -15,6 +16,9 @@ public class NightTimer : MonoBehaviour
     private bool canDecreaseTime = true;
     private float startIntensity;
 
+    public List<GameObject> tutorialText = new List<GameObject>();
+    public bool hasBeenDeactivated = false;
+    
     void Start()
     {
         currentTime = nightDurationInSeconds;
@@ -35,6 +39,17 @@ public class NightTimer : MonoBehaviour
         {
             SceneManager.LoadScene(0);
         }
+
+        if (!hasBeenDeactivated && Mathf.Approximately(currentTime, nightDurationInSeconds - 60f))
+        {
+            foreach (var VARIABLE in tutorialText)
+            {
+                VARIABLE.SetActive(false);
+            }
+
+            hasBeenDeactivated = true;
+        }
+        
     }
 
     IEnumerator DecreaseTimeCorout()

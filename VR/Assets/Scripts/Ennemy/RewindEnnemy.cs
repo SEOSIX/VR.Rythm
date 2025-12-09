@@ -36,7 +36,7 @@ public class RewindEnnemy : MonoBehaviour
         if (ennemyScript.inRewindZone1 && canRewindEnnemy)
         {
             GoBack();
-            ennemyScript.inRewindZone1 = false;
+            StartCoroutine(Cooldown());
         }
         
     }

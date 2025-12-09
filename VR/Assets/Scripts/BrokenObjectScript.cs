@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public class BrokenObjectScript : MonoBehaviour
 {
-
     [Header("Genral link")] 
     public Material GreenMat;
     public Material OrangeMat;
@@ -16,12 +15,10 @@ public class BrokenObjectScript : MonoBehaviour
     public DisplayError displayError;
     
     [Header("Link General fixing device")] 
-    //public GameObject deviceScreen;
     public Renderer cameraLightRenderer;
     public Renderer rythmLightRenderer;
     public Renderer trapLightRenderer;
     public Slider fillingBar;
-    
     
     [Header("Link Camera")] 
     public GameObject cameraCrash;
@@ -32,20 +29,14 @@ public class BrokenObjectScript : MonoBehaviour
     public GameObject rythmPanelCrash;
     public GameObject rythmPanelDisplay;
     private bool fixingRymthCoroutIsRunning = false;
-    
-    /*
-    [Header("Link Trap")] 
-    public GameObject trapCrash;
-    public GameObject trapDisplay;
-    */
-    
-     public bool isCameraBroke = false;
-     public bool isRythmPanelBroke = false;
-    //[HideInInspector] public bool isTrapBroke = false;
+
+    public bool isCameraBroke = false;
+    public bool isRythmPanelBroke = false;
+
+    private bool isFixingSomething = false;
     
     void Start()
     {
-        //deviceScreen.SetActive(false);
         bipSource.clip = BIP;
         
         cameraLightRenderer.material = GreenMat;
@@ -56,169 +47,150 @@ public class BrokenObjectScript : MonoBehaviour
 
         fillingBar.maxValue = 100;
         fillingBar.value = 0;
-
     }
+
     public void Update()
     {
-
         CheckCamera();
         CheckRythmPanel();
-     
-
     }
 
     private void CheckCamera()
     {
-        if (isCameraBroke)
+        if (isCameraBroke && fixingCameraCoroutIsRunning)
         {
             cameraDisplay.SetActive(false);
             cameraCrash.SetActive(true);
-            
-            cameraLightRenderer.material = RedMat;
-        }
-        else if (isCameraBroke && fixingCameraCoroutIsRunning)
-        {
-            cameraDisplay.SetActive(false);
-            cameraCrash.SetActive(true);
-            
             cameraLightRenderer.material = OrangeMat;
+        }
+        else if (isCameraBroke)
+        {
+            cameraDisplay.SetActive(false);
+            cameraCrash.SetActive(true);
+            cameraLightRenderer.material = RedMat;
         }
         else
         {
             cameraDisplay.SetActive(true);
             cameraCrash.SetActive(false);
-           
             cameraLightRenderer.material = GreenMat;
         }
     }
 
     private void CheckRythmPanel()
     {
-        if (isRythmPanelBroke)
+        if (isRythmPanelBroke && fixingRymthCoroutIsRunning)
         {
             rythmPanelDisplay.SetActive(false);
             rythmPanelCrash.SetActive(true);
-
-            rythmLightRenderer.material = RedMat;
-        }
-        else if (isRythmPanelBroke && fixingRymthCoroutIsRunning)
-        {
-            rythmPanelDisplay.SetActive(false);
-            rythmPanelCrash.SetActive(true);
-
             rythmLightRenderer.material = OrangeMat;
+        }
+        else if (isRythmPanelBroke)
+        {
+            rythmPanelDisplay.SetActive(false);
+            rythmPanelCrash.SetActive(true);
+            rythmLightRenderer.material = RedMat;
         }
         else
         {
             rythmPanelDisplay.SetActive(true);
             rythmPanelCrash.SetActive(false);
-
             rythmLightRenderer.material = GreenMat;
         }
     }
-    
 
     #region FixingStuff
 
         public void TurnOnAndOffFixingDevice()
         {
-            //deviceScreen.SetActive(!deviceScreen.activeSelf);
-            //Si besoin faire la degradation de la batterie ici if(deviceScreen.activeSelf)
         }
 
         #region Camera
         
-            // Activated by buton in game
             public void RebootCameraButon()
             {
-                if (!isCameraBroke || fixingCameraCoroutIsRunning)
+                if (!isCameraBroke || fixingCameraCoroutIsRunning || isFixingSomething)
                 {
                     return;
                 }
                 
                 StartCoroutine(RebootCameraCorout());
             }
+
             private IEnumerator RebootCameraCorout()
             {
-                
                 fixingCameraCoroutIsRunning = true;
+                isFixingSomething = true;
                 
                 bipSource.Play();
 
                 yield return StartCoroutine(SliderFillingCorout());
+
                 displayError.timeToDisplayCamera = displayError.baseTimeToDisplayCamera;
                 displayError.TimeDisplay.value = displayError.timeToDisplayCamera;
                 isCameraBroke = false;
-                
-                //changer avec le bin mask
                 displayError.CameraIsBroke = false;
                 
                 fixingCameraCoroutIsRunning = false;
+                isFixingSomething = false;
             }
 
         #endregion
         
         #region Rythm
         
-            // Activated by buton in game
             public void RebootRythmButon()
             {
-                if (!isRythmPanelBroke || fixingRymthCoroutIsRunning)
+                if (!isRythmPanelBroke || fixingRymthCoroutIsRunning || isFixingSomething)
                 {
                     return;
                 }
                 
                 StartCoroutine(RebootRythmCorout());
             }
+
             private IEnumerator RebootRythmCorout()
             {
                 fixingRymthCoroutIsRunning = true;
+                isFixingSomething = true;
                 
                 bipSource.Play();
                 
                 yield return StartCoroutine(SliderFillingCorout());
+
                 displayError.numberUsageRythmActivator = displayError.baseNumberUsageRythmActivator;
                 isRythmPanelBroke = false;
-                
-                //changer avec le bin mask
                 displayError.PanelDisplayIsBroke = false;
                 
                 fixingRymthCoroutIsRunning = false;
+                isFixingSomething = false;
             }
 
         #endregion
         
-        /*
-        #region Trap
+        #region BreakAll
         
-            // Activated by buton in game
-            public void RebootTrapButon()
+            public void BreakAll()
             {
-                if (!isTrapBroke)
-                {
-                    return;
-                }
-                
-                StartCoroutine(RebootCameraCorout(Random.Range(7, 20)));
-            }
-            private IEnumerator RebootTrapCorout(int RebootTime)
-            {
-                yield return new WaitForSeconds(RebootTime);
-                isTrapBroke = false;
+                displayError.CameraIsBroke = true;
+                displayError.PanelDisplayIsBroke = true;
             }
 
         #endregion
-        */
-
+        
         IEnumerator SliderFillingCorout()
         {
+            float duration = 5f;
+            fillingBar.value = 0;
 
-            yield return Mathf.Lerp(fillingBar.value, fillingBar.maxValue, 5);
-            
+            while (fillingBar.value < fillingBar.maxValue)
+            {
+                fillingBar.value += fillingBar.maxValue * Time.deltaTime / duration;
+                yield return null;
+            }
+
+            fillingBar.value = 0;
         }
+
     #endregion
-    
-    
-    
-    
 }

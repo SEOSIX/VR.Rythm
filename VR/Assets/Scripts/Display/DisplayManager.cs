@@ -140,6 +140,8 @@ namespace DefaultNamespace
 
         private void CheckTriggers()
         {
+            
+            // ATTENTION BUG ICI
             RectTransform canvasRect = triggerZone.GetComponentInParent<Canvas>().GetComponent<RectTransform>();
 
             for (int i = 0; i < activeImages.Length; i++)

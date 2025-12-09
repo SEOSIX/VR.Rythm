@@ -117,6 +117,7 @@ public class Ennemy : MonoBehaviour, IEnnemy
 
     public void Stop(float timeToStop)
     {
+        
     }
 
     public void Attacking()
