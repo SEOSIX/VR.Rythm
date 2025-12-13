@@ -184,6 +184,15 @@ namespace DefaultNamespace
                             OnObjectTriggered(img.gameObject);
                             hasMissed = false;
                         }
+                        else
+                        {
+                            imagesInTrigger.Remove(fi);
+                            Destroy(img.gameObject, 1f);
+                            activeImages[i].RemoveAt(j);
+                            customSpeeds.Remove(img);
+                            hasMissed = true;
+                            IsCorrect();
+                        }
                     }
                     else
                     {
@@ -306,12 +315,10 @@ namespace DefaultNamespace
                 OnAllPatternsCleared?.Invoke();
                 StartCoroutine(FadeImageColor(detect, Color.black, Color.green, 1f));
                 DisplayError.instance.DecreaseUsageRythms(DisplayError.instance.numberUsageRythmActivator);
-                TrapManager.tryActivateTrap = false;
 
             }
             else
             {
-                TrapManager.tryActivateTrap = false;
                 SoundManager.ResetPitch();
                 StartCoroutine(FadeImageColor(detect, Color.black, Color.red, 1f));
                 DisplayError.instance.DecreaseUsageRythms(DisplayError.instance.numberUsageRythmActivator);

@@ -158,13 +158,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DefaultNamespace.WallTrap
   TramName: WallTram
   trap: 0
-  TrapDuration: 4
+  TrapDuration: 15
   displayPattern:
     imagePrefabs:
     - {fileID: 3896973812578179935, guid: 64359587ff1fa8c4d8bd381a5edf1d9f, type: 3}
     - {fileID: 3896973812578179935, guid: 92ff31cfc6bbf434badfdf6c14c1c7ce, type: 3}
-    - {fileID: 3896973812578179935, guid: 62a1819c115854f43ac2965d2ba54d46, type: 3}
-    numberToSpawn: 3
+    numberToSpawn: 1
     customFallSpeed: 0.32
-    spawnInterval: 0.31
+    spawnInterval: 0.77
   wallCube: {fileID: 4957906798776657715}
+  isActivating: 0

@@ -7,10 +7,10 @@ using UnityEngine;
 public class TrapDisplayPattern
 {
     public GameObject[] imagePrefabs;
-    public int numberToSpawn = 3;
-    public float customFallSpeed = -1f;
+    public int numberToSpawn;
+    public float customFallSpeed;
     [Header("Intervalle entre les apparitions")]
-    public float spawnInterval = 0.25f;
+    public float spawnInterval;
 }
 
 public abstract class Trap : MonoBehaviour
