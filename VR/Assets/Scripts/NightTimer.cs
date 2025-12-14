@@ -21,6 +21,7 @@ public class NightTimer : MonoBehaviour
         startIntensity = spotLight.intensity;
     }
 
+    // gaffe au code en update
     void Update()
     {
         if (canDecreaseTime)

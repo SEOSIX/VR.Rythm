@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 public class SceneChanger : MonoBehaviour
 {
     
+    // j't'encourage à passer par des index en enum, et éviter les checks de string, si tu renames ta scene ca marchera plus
+    
     public void LoadGame()
     {
         if (SceneManager.GetActiveScene().name == "Menu")

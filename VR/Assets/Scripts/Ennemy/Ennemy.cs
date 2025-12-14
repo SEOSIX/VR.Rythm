@@ -38,6 +38,7 @@ public class Ennemy : MonoBehaviour, IEnnemy
         agent = GetComponent<NavMeshAgent>();
     }
 
+    // de la logique dans l'update -> red flag, fais des fonctions, là on sait pas ce que ca fait
     private void Update()
     {
         float dist = agent.remainingDistance;
@@ -67,7 +68,8 @@ public class Ennemy : MonoBehaviour, IEnnemy
             StopMovement();
             StartCoroutine(WaitForWallDeactivation(other.gameObject));
         }
-        
+        // j'pense tu peux soit mettre un return, soit un else if, t'as pas besoin de
+        // comparer si tu rentres dans le premier, le deuxieme if sera forcément faux
         if (other.CompareTag("RewindZone"))
         {
             inRewindZone1 = true;
@@ -115,12 +117,14 @@ public class Ennemy : MonoBehaviour, IEnnemy
         agent.SetDestination(targetPoint.position);
     }
 
+    // elle servira ? sinon retire la d'ici et de ton interface
     public void Stop(float timeToStop)
     {
     }
 
     public void Attacking()
     {
+        // gaffe aux magic numbers, hésite pas à créer un enum Scenes {menu = 0, game =1 } par exemple
         GameOverScript.LoadScene(2);
     }
     

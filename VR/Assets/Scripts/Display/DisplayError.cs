@@ -35,11 +35,15 @@ public class DisplayError : MonoBehaviour
         baseTimeToDisplayCamera = timeToDisplayCamera;
         baseNumberUsageRythmActivator = numberUsageRythmActivator;
 
+        // si le timeDisplay est egal à null, ca chiera 2 lignes apres,
+        // soit le check sert à rien, soit ca puducu et ca fera des exceptions
         if (TimeDisplay != null)
             TimeDisplay.maxValue = baseTimeToDisplayCamera;
         TimeDisplay.value = timeToDisplayCamera;
     }
 
+    // tu ne devrais avoir rien de spécifique dans l'update, le reportBug, c'est OK,
+    // parcontre pour le computer.isOpen il faudrait avoir une fonction ManagerComputer par exemple, et mettre tout dedans
     void Update()
     {
 		ReportBug();
@@ -58,6 +62,8 @@ public class DisplayError : MonoBehaviour
     {
         if (!canDecrease)
             return;
+        // le timeDisplay, si t'as une bonne machine, il va dégringoler vachement vite,
+        // et trigger cameraisBroke bien plus souvent nan?
         timeToDisplay -= Time.deltaTime;
         TimeDisplay.value--;
         if (TimeDisplay.value <= 0f)

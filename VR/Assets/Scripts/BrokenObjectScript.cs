@@ -9,6 +9,7 @@ public class BrokenObjectScript : MonoBehaviour
     public Material OrangeMat;
     public Material RedMat;
 
+    // Pourquoi il est tout en majuscule ?
     public AudioClip BIP;
     public AudioSource bipSource;
     
@@ -129,7 +130,7 @@ public class BrokenObjectScript : MonoBehaviour
                 {
                     return;
                 }
-                
+                // pas ouf les magic numbers
                 StartCoroutine(RebootCameraCorout(Random.Range(7, 20)));
             }
             private IEnumerator RebootCameraCorout(int RebootTime)
@@ -144,6 +145,8 @@ public class BrokenObjectScript : MonoBehaviour
                 displayError.TimeDisplay.value = displayError.timeToDisplayCamera;
                 isCameraBroke = false;
                 
+                // hésite pas à rajouter "TODO" devant les choses à faire, tu pourras les retrouver plus
+                // facilement, et rider te les liste en +
                 //changer avec le bin mask
                 displayError.CameraIsBroke = false;
                 

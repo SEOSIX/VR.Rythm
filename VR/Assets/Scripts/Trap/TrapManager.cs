@@ -12,7 +12,7 @@ namespace DefaultNamespace
         
         [Header("Public var")]
         public List<Trap> traps = new List<Trap>();
-        [Header("Serialized var")]
+        [Header("Serialized var")] // -> pas sur de la pertinence de l'info dans l'éditeur
         [SerializeField] private Button startRythmutton;
         [SerializeField] private GameObject monitor;
         
@@ -36,6 +36,7 @@ namespace DefaultNamespace
             {
                 startRythmutton.gameObject.SetActive(true);
             }
+            // c'est appellé plusieurs fois ca ? tu risques pas d'avoir 5246245 listeners si tu l'appelles plusieurs fois?
             startRythmutton.onClick.AddListener(() => ActivateTrap(i));
             monitor.SetActive(true);
             tryActivateTrap = true;

@@ -21,7 +21,7 @@ public class Clock : MonoBehaviour
     void Update()
     {
         gameTimeInMinutes += Time.deltaTime * timeMultiplier;
-        if (gameTimeInMinutes >= 12 * 60f)
+        if (gameTimeInMinutes >= 12 * 60f) // gaffe au 12 en dur, ca pourrait clairement changer, et là faudrait bricoler en code
             gameTimeInMinutes -= 12 * 60f;
 
         int hours = Mathf.FloorToInt(gameTimeInMinutes / 60f);

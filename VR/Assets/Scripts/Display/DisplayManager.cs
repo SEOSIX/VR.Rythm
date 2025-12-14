@@ -62,6 +62,8 @@ namespace DefaultNamespace
             StartCoroutine(SpawnPatternWithDelay(pattern));
         }
 
+        // elle est un peu mystique cette fonction, ca pourrait etre cool de la splitter un peu pour
+        // réduire la charge intellectuelle à la lecture
         private IEnumerator SpawnPatternWithDelay(TrapDisplayPattern pattern)
         {
             int spawned = 0;
@@ -80,6 +82,7 @@ namespace DefaultNamespace
                 }
 
                 GameObject prefab = null;
+                // c'est quoi spawnindex 0 1 2 ? 
                 switch (spawnIndex)
                 {
                     case 0:
@@ -97,7 +100,7 @@ namespace DefaultNamespace
                 RectTransform rect = newImg.GetComponent<RectTransform>();
                 rect.anchoredPosition = Vector2.zero;
 
-
+                // vraiment aucun moyen de stocker ce component pour éviter le getcomponent ici?
                 FallingImage fi = newImg.GetComponent<FallingImage>();
                 fi.spawnIndex = spawnIndex;
                 activeImages[spawnIndex].Add(rect);
@@ -121,6 +124,7 @@ namespace DefaultNamespace
         {
             for (int i = 0; i < activeImages.Length; i++)
             {
+                // bon réflexe le -- avec le remove
                 for (int j = activeImages[i].Count - 1; j >= 0; j--)
                 {
                     RectTransform img = activeImages[i][j];
@@ -138,6 +142,7 @@ namespace DefaultNamespace
             }
         }
 
+        // pareil, hésite pas à splitter un peu, et éviter le getcomponent si possible, là c'est une belle bête
         private void CheckTriggers()
         {
             RectTransform canvasRect = triggerZone.GetComponentInParent<Canvas>().GetComponent<RectTransform>();
@@ -213,6 +218,7 @@ namespace DefaultNamespace
             }
         }
 
+        // C'est bien DRY, c'est cool
         public void Button1Press()
         {
             CheckButtonPress(0);
@@ -228,6 +234,7 @@ namespace DefaultNamespace
             CheckButtonPress(2);
         }
         
+        // parcontre wallah zeubi la méthode elle fait le pain, le café et la toiture
         private void CheckButtonPress(int buttonType)
         {
             for (int i = imagesInTrigger.Count - 1; i >= 0; i--)
@@ -298,6 +305,8 @@ namespace DefaultNamespace
             return imagesInTrigger.Count == 0;
         }
         
+        // de maniere générale, dans ta nomenclature, si tu mets Is{truc}, on s'attend à avoir une méthode qui
+        // retourne un booléen, là elle fait des choses, ca devrait pas être le cas
         void IsCorrect()
         {
             if (AreAllPatternsCleared())

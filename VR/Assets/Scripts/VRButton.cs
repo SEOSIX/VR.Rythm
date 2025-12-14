@@ -21,6 +21,7 @@ public class VRButton : MonoBehaviour
     {
         if (!Ispressed)
         {
+            // gaffe aux get component évitables
             Renderer buttonColor = button.GetComponent<Renderer>();
             
             buttonColor.material.color = Color.blue;
@@ -28,6 +29,7 @@ public class VRButton : MonoBehaviour
             onPress.Invoke();
             Ispressed = true;
             //jouer le sons lorqu'on appui
+            // -> TODO ?
         }
     }
 
