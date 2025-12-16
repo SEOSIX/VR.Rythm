@@ -45,6 +45,7 @@ namespace DefaultNamespace
             traps[index].ActivateTrap();
             Debug.Log($"trap {index} astarted");
             isPressed = true;
+            startRythmutton.onClick.RemoveAllListeners();
         }
 
         public void OnButtonClicked(Image btn)
