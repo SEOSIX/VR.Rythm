@@ -30,8 +30,6 @@ namespace DefaultNamespace
 
         public void WaitForActivating(int i)
         {
-            if (tryActivateTrap)
-                return;
             if (isPressed)
             {
                 startRythmutton.gameObject.SetActive(true);
