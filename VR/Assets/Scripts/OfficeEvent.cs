@@ -7,25 +7,13 @@ using Random = UnityEngine.Random;
 public class OfficeEvent : MonoBehaviour
 {
 
-    public SceneChanger instance;
+    public MusicManager musicManager;
     
     [Header("Lights part")]
     public Light officeLight;
     public GameObject leftLight;
     public GameObject rightLight;
     public GameObject midleLight;
-    
-    /*
-    [Header("Jumpscare part")]
-    public GameObject pictureInWorld;
-    public bool animInPlay;
-    public bool jumpscareActive;
-    public Animator anim;
-    */
-    
-    [Header("Sound Source")] 
-    public AudioSource musiqueSource;
-    public AudioSource soundEffectSource;
 
     [Header("Sound Clip")] 
     public AudioClip musicDeFond;
@@ -33,6 +21,7 @@ public class OfficeEvent : MonoBehaviour
     
     
     private bool isFlickering = false;
+    private float CheckFlickering = 0;
 
     private void Start()
     {
@@ -47,14 +36,31 @@ public class OfficeEvent : MonoBehaviour
         //Music
         PlayMusic(musicDeFond,true);
         
-        //Jumpscare
-        //pictureInWorld.SetActive(false);
-        //animInPlay = false;
-        
     }
 
     private void Update()
     {
+
+        FlickeringCheck();
+        
+    }
+
+    private void FlickeringCheck()
+    {
+        if (!(Time.time - CheckFlickering < 0.1 ))
+        {
+            return;
+        }
+
+        CheckFlickering = Time.time;
+        
+        Flicker();
+
+    }
+
+    private void Flicker()
+    {
+        
         if (!isFlickering)
         {
             if (Random.Range(0f, 1f) < 0.0001f) // 0.1% de chance par frame
@@ -62,7 +68,6 @@ public class OfficeEvent : MonoBehaviour
                 StartCoroutine(FlickerCoroutine(Random.Range(2, 20)));
             }
         }
-        
         
     }
 
@@ -85,59 +90,11 @@ public class OfficeEvent : MonoBehaviour
     
     public void PlaySoundEffect(AudioClip soundEffect)
     {
-        if (soundEffectSource == null) return;
-        if (soundEffectSource.loop)
-        {
-            soundEffectSource.loop = false;
-        }
-        soundEffectSource.clip = soundEffect;
-        soundEffectSource.Play();
+        musicManager.PlaySoundEffect(soundEffect);
     }
     
-    /*
-    public IEnumerator JumpscareAnimCorout()
+    public void PlayMusic(AudioClip sound,bool loop)
     {
-        jumpscareActive = true;
-        
-        pictureInWorld.SetActive(true);
-        
-        yield return StartCoroutine(FlickerCoroutine(20));
-        officeLight.enabled = false;
-        pictureInWorld.SetActive(false);
-        
-        yield return new WaitForSeconds(Random.Range(2f, 8f));
-        
-        animInPlay = false;
-        anim.SetTrigger("Jumpscare");
-        
-        yield return new WaitForSeconds(5.30f);
-        
-        instance.LoadDeathMenu();
-        
-        yield return new WaitForSeconds(20f);
-        
-        animInPlay = false;
+        musicManager.PlayMusic(sound,loop);
     }
-    */
-    
-    public void PlayMusic(AudioClip soundEffect,bool loop)
-    {
-        if (musiqueSource == null) return;
-        
-        musiqueSource.loop = loop;
-        
-        musiqueSource.clip = soundEffect;
-        
-        musiqueSource.Play();
-    }
-    
-    /*
-    void OnCollisionEnter(Collision collision)
-    {
-        if(collision.gameObject.CompareTag("Ennemy") && !animInPlay)
-        {
-            StartCoroutine(JumpscareAnimCorout());
-        }
-    }
-    */
 }
