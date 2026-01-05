@@ -51,7 +51,7 @@ namespace DefaultNamespace
         {
             base.OnDurationEnded();
             wallCube.SetActive(false);
-            TrapManager.ChangeColor(Color.green);
+            TrapManager.ChangeColor(Color.forestGreen);
         }
     }
 }
