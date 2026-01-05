@@ -21,7 +21,10 @@ namespace DefaultNamespace
         [Header("DetectIfCorrect")] 
         [SerializeField] private Image detect;
 
-        [Header("Trigger & Movement")] public RectTransform triggerZone;
+        [Header("Trigger & Movement")] 
+        public RectTransform triggerZone;
+
+        public Canvas canvasRythm;
         public float fallSpeed = 2f;
         public int maxPerSpawnPoint = 3;
 

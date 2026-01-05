@@ -16,6 +16,7 @@ public class TutoManager : MonoBehaviour
     [SerializeField] private Button buttonNext;
     [SerializeField] private TextMeshProUGUI buttonText;
     [SerializeField] private GameObject parent;
+    [SerializeField] private GameObject enemy;
 
 
     
@@ -23,6 +24,7 @@ public class TutoManager : MonoBehaviour
     
     private void Start()
     {
+        enemy.SetActive(false);
         UpdateText();
         buttonNext.onClick.AddListener(NextText);
     }
@@ -53,6 +55,7 @@ public class TutoManager : MonoBehaviour
         else
         {
             parent.SetActive(false);
+            enemy.SetActive(true);
             return;
         }
     }

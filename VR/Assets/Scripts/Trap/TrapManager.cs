@@ -43,7 +43,6 @@ namespace DefaultNamespace
         public void ActivateTrap(int index)
         {
             traps[index].ActivateTrap();
-            Debug.Log($"trap {index} astarted");
             isPressed = true;
             startRythmutton.onClick.RemoveAllListeners();
         }
@@ -51,11 +50,6 @@ namespace DefaultNamespace
         public void OnButtonClicked(Image btn)
         {
             lastSelected = btn;
-        }
-
-        public static void ChangeColor(Color color)
-        {
-            lastSelected.color = color;
         }
     }
 }

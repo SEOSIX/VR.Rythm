@@ -43,7 +43,6 @@ namespace DefaultNamespace
             if (!isActivating)
                 return;
             wallCube.SetActive(true);
-            TrapManager.ChangeColor(Color.red);
             isActivating = false;
         }
         
@@ -51,7 +50,6 @@ namespace DefaultNamespace
         {
             base.OnDurationEnded();
             wallCube.SetActive(false);
-            TrapManager.ChangeColor(Color.forestGreen);
         }
     }
 }
