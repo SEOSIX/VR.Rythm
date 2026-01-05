@@ -8,7 +8,7 @@ public class SceneChanger : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name == "Menu")
         {
-            SceneManager.LoadScene("Game");
+            SceneManager.LoadScene(1);
         }
         else
         {
@@ -18,7 +18,7 @@ public class SceneChanger : MonoBehaviour
     
     public void LoadMenu()
     {
-        if (SceneManager.GetActiveScene().buildIndex < 0)
+        if (SceneManager.GetActiveScene().buildIndex == 1)
         {
             SceneManager.LoadScene("Menu");
         }

@@ -5893,13 +5893,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2eec07d0700ac942ab51d48de3b7ec6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  instance: {fileID: 0}
+  musicManager: {fileID: 1207754840}
   officeLight: {fileID: 163209226}
   leftLight: {fileID: 191229178}
   rightLight: {fileID: 1033009189}
   midleLight: {fileID: 1704621182}
-  musiqueSource: {fileID: 98175677}
-  soundEffectSource: {fileID: 1213196825}
   musicDeFond: {fileID: 8300000, guid: fc65b64105626a740bed5a9cece30ed7, type: 3}
   lightFlicker: {fileID: 8300000, guid: eebe52d3d4df7124ab9b2b6508170260, type: 3}
 --- !u!23 &685401759
@@ -8562,6 +8560,52 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 5}
   m_SizeDelta: {x: 0, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1207754838
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1207754839}
+  - component: {fileID: 1207754840}
+  m_Layer: 0
+  m_Name: MusicManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1207754839
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1207754838}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1845262194}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1207754840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1207754838}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21bab0cd5a8d649409207f5c50664b19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  musiqueSource: {fileID: 0}
+  soundEffectSource: {fileID: 0}
 --- !u!4 &1211470183 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7379307278003735337, guid: 45973d4182a93e54fa6fbff5b2774597, type: 3}
@@ -12369,6 +12413,7 @@ Transform:
   - {fileID: 501249932}
   - {fileID: 46478535}
   - {fileID: 885304508}
+  - {fileID: 1207754839}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1851499151 stripped
@@ -14978,6 +15023,10 @@ PrefabInstance:
     - target: {fileID: 4250344254569016513, guid: 45973d4182a93e54fa6fbff5b2774597, type: 3}
       propertyPath: m_Name
       value: NightClock
+      objectReference: {fileID: 0}
+    - target: {fileID: 4692654407005067584, guid: 45973d4182a93e54fa6fbff5b2774597, type: 3}
+      propertyPath: m_text
+      value: '6 : 00'
       objectReference: {fileID: 0}
     - target: {fileID: 7379307278003735337, guid: 45973d4182a93e54fa6fbff5b2774597, type: 3}
       propertyPath: m_LocalPosition.x
