@@ -56,6 +56,10 @@ namespace DefaultNamespace
 
         public void DisplayCustomPattern(TrapDisplayPattern pattern)
         {
+            hasMissed = false;
+            allCorrect = true;
+            imagesInTrigger.Clear();
+
             if (pattern == null || pattern.imagePrefabs == null || pattern.imagePrefabs.Length == 0)
             {
                 Debug.LogWarning("Aucun pattern visuel défini pour ce trap.");
@@ -184,19 +188,9 @@ namespace DefaultNamespace
                     {
                         if (!imagesInTrigger.Contains(fi))
                         {
-                            OnObjectTriggered(img.gameObject);
+                            imagesInTrigger.Add(fi);
+                            
                             hasMissed = false;
-                            Debug.Log(canvasRect);
-                        }
-                        else
-                        {
-                            imagesInTrigger.Remove(fi);
-                            Destroy(img.gameObject, 1f);
-                            activeImages[i].RemoveAt(j);
-                            customSpeeds.Remove(img);
-                            hasMissed = true;
-                            IsCorrect();
-                            Debug.Log(canvasRect);
                         }
                     }
                     else
@@ -204,12 +198,11 @@ namespace DefaultNamespace
                         if (imagesInTrigger.Contains(fi))
                         {
                             imagesInTrigger.Remove(fi);
-                            Destroy(img.gameObject, 1f);
-                            activeImages[i].RemoveAt(j);
+                            RemoveRectFromActiveImages(img);
                             customSpeeds.Remove(img);
+                            Destroy(img.gameObject);
 
                             hasMissed = true;
-                            IsCorrect();
                         }
                     }
                 }
@@ -279,10 +272,14 @@ namespace DefaultNamespace
                 RemoveRectFromActiveImages(rect);
                 if (customSpeeds.ContainsKey(rect))
                     customSpeeds.Remove(rect);
-                Destroy(fi.gameObject, 0.3f);
+                
+                Destroy(fi.gameObject);
 
+                if (AreAllPatternsCleared())
+                {
+                    IsCorrect();
+                }
                 allCorrect = false;
-                Debug.Log($"BIG ERROR sur {fi.name}, imagesInTrigger count {imagesInTrigger.Count}");
             }
         }
 
