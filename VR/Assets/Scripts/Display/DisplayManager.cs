@@ -143,7 +143,7 @@ namespace DefaultNamespace
 
         private void CheckTriggers()
         {
-            RectTransform canvasRect = triggerZone.GetComponentInParent<Canvas>().GetComponent<RectTransform>();
+            RectTransform canvasRect = triggerZone.parent.GetComponent<RectTransform>();
 
             for (int i = 0; i < activeImages.Length; i++)
             {
@@ -186,6 +186,7 @@ namespace DefaultNamespace
                         {
                             OnObjectTriggered(img.gameObject);
                             hasMissed = false;
+                            Debug.Log(canvasRect);
                         }
                         else
                         {
@@ -195,6 +196,7 @@ namespace DefaultNamespace
                             customSpeeds.Remove(img);
                             hasMissed = true;
                             IsCorrect();
+                            Debug.Log(canvasRect);
                         }
                     }
                     else
