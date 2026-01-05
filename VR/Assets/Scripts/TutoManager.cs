@@ -24,7 +24,10 @@ public class TutoManager : MonoBehaviour
     
     private void Start()
     {
-        enemy.SetActive(false);
+        if (enemy != null)
+        {
+            enemy.SetActive(false);
+        }
         UpdateText();
         buttonNext.onClick.AddListener(NextText);
     }
@@ -54,8 +57,11 @@ public class TutoManager : MonoBehaviour
         }
         else
         {
-            parent.SetActive(false);
-            enemy.SetActive(true);
+            StartCoroutine(WaitSomeSeconds());
+            if (enemy != null)
+            {
+                enemy.SetActive(true);
+            }
             return;
         }
     }
@@ -69,5 +75,11 @@ public class TutoManager : MonoBehaviour
             text.maxVisibleCharacters ++;
         }
         yield break;
+    }
+
+    private IEnumerator WaitSomeSeconds()
+    {
+        yield return new WaitForSeconds(.1f);
+        parent.SetActive(false);
     }
 }

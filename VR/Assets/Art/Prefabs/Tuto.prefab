@@ -516,16 +516,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TutoManager
   areaTexte:
-  - Vous avez ete recu en tant que garde de nuit dans un complexe qui a ferme recemment
+  - Tu as ete recu en tant que garde de nuit dans un complexe qui a ferme recemment
   - Cet endroit a connu multiples agressions, il est possible que certains individus
-    tentent de vous tuer...
-  - Le jour se levera d'ici quelques heures... vous avez une horloge sur votre gauche
-  - A vous de bien activer les pieges en cliquant sur les portes pour empecher l'individu
-    de s'approcher de vous
-  - En attendant que la releve de jour arrive essayez de le bloquer le plus longtemps
+    tentent de te tuer...
+  - Le jour se levera d'ici quelques heures... tu as une horloge sur votre gauche
+  - En attendant que la releve de jour arrive essaye de le bloquer le plus longtemps
+  - A toi de bien activer les pieges en cliquant sur les portes pour empecher l'individu
+    de t'approcher
   - Le systeme de camera est parfois capricieux ... mais ne vous en faites pas il
-    ne peut rien vous arrivez si vous suivez sa trajectoire depuis un moment.
+    ne peut rien vous arrivez si tu le suit depuis un moment.
+  - "Une derniere chose, si ton ecran s'\xE9teint il y a dans la piece un boitier
+    qui peut t'aider"
   text: {fileID: 277017562037503070}
   buttonNext: {fileID: 2517212584215481093}
   buttonText: {fileID: 1116384319755596407}
   parent: {fileID: 5107569262029636371}
+  enemy: {fileID: 0}
