@@ -16,15 +16,6 @@ public class RewindEnnemy : MonoBehaviour
     //1St path Rewind
     [SerializeField] private GameObject startPoint1;
     
-    void Start()
-    {
-        
-    }
-    
-    void Update()
-    {
-        
-    }
 
     public void GoBack()
     {

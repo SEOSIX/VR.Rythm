@@ -4054,7 +4054,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9805b487c0b6ce42954c28a402f4360, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Ennemy
-  enemyName: 
+  enemyName: You
   scream: {fileID: 0}
   targetPoint: {fileID: 194223304}
   inRewindZone1: 0
