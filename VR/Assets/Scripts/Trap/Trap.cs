@@ -37,15 +37,13 @@ public abstract class Trap : MonoBehaviour
         {
             DisplayManager.instance.DisplayCustomPattern(displayPattern);
         }
-
-        StartCoroutine(DurationEnded());
     }
 
     public virtual void TrapTriggered()
     {
         
     }
-    private IEnumerator DurationEnded()
+    public virtual IEnumerator DurationEnded()
     {
         yield return new WaitForSeconds(TrapDuration);
         OnDurationEnded(); 

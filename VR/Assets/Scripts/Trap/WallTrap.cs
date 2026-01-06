@@ -43,6 +43,7 @@ namespace DefaultNamespace
             if (!isActivating)
                 return;
             wallCube.SetActive(true);
+            StartCoroutine(DurationEnded());
             isActivating = false;
         }
         
