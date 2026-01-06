@@ -14,7 +14,8 @@ public class MonsterMusique : MonoBehaviour
     
     
     //Sound
-    private MusicManager musiqueManager;
+    [Header("Manager")]
+    public MusicManager musiqueManager;
     
     [Header("Musique Source")]
     public AudioSource MonsterMusiqueSource;

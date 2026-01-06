@@ -3511,6 +3511,7 @@ MonoBehaviour:
   ClosingTrigger: {fileID: 1997008822}
   NearTrigger: {fileID: 1147495261}
   AlmostThereTrigger: {fileID: 673991682}
+  musiqueManager: {fileID: 1207754840}
   MonsterMusiqueSource: {fileID: 2098073776}
   FarAudio: {fileID: 8300000, guid: 69b44ca10d465d2439a727cae4d585f6, type: 3}
   ClosingDistanceAudio: {fileID: 8300000, guid: b46960e789873af4bae296ee45cc52dc, type: 3}
@@ -4075,7 +4076,7 @@ Transform:
   m_GameObject: {fileID: 469718237}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 28.2, y: 0.47, z: -39.2}
+  m_LocalPosition: {x: 11.49, y: 0.47, z: -90.88}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4259,7 +4260,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RewindEnnemy
   ennemyScript: {fileID: 469718239}
   agent: {fileID: 469718244}
-  monsterMusique: {fileID: 0}
+  monsterMusique: {fileID: 312400882}
   startPoint1: {fileID: 1017447314}
 --- !u!1 &473383186
 GameObject:
@@ -5719,7 +5720,7 @@ Transform:
   m_GameObject: {fileID: 673991680}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -43.47, y: -2.53, z: 2.67}
+  m_LocalPosition: {x: -23, y: -2.53, z: 11}
   m_LocalScale: {x: 5.926483, y: 1, z: 5.09338}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8476,7 +8477,7 @@ Transform:
   m_GameObject: {fileID: 1147495259}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -22.6648, y: -2.53, z: 10.87}
+  m_LocalPosition: {x: -43.4, y: -2.53, z: 3}
   m_LocalScale: {x: 5.926483, y: 1, z: 5.09338}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -14767,6 +14768,14 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.15265143
       objectReference: {fileID: 0}
+    - target: {fileID: 6380675167766567780, guid: ec5687f7ae6f3eb4b812bf63ad6265cc, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.3788
+      objectReference: {fileID: 0}
+    - target: {fileID: 6380675167766567780, guid: ec5687f7ae6f3eb4b812bf63ad6265cc, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.705
+      objectReference: {fileID: 0}
     - target: {fileID: 6914006060812395998, guid: ec5687f7ae6f3eb4b812bf63ad6265cc, type: 3}
       propertyPath: m_Value
       value: 1
@@ -14894,18 +14903,6 @@ PrefabInstance:
     - target: {fileID: 8753133258432324879, guid: ec5687f7ae6f3eb4b812bf63ad6265cc, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8895986635171244615, guid: ec5687f7ae6f3eb4b812bf63ad6265cc, type: 3}
-      propertyPath: m_Color.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8895986635171244615, guid: ec5687f7ae6f3eb4b812bf63ad6265cc, type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8895986635171244615, guid: ec5687f7ae6f3eb4b812bf63ad6265cc, type: 3}
-      propertyPath: m_Color.r
-      value: 0.15265143
       objectReference: {fileID: 0}
     - target: {fileID: 9220699324242101049, guid: ec5687f7ae6f3eb4b812bf63ad6265cc, type: 3}
       propertyPath: m_Name
@@ -15166,15 +15163,15 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: fc65b64105626a740bed5a9cece30ed7, type: 3}
+  m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.25
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 129
   DopplerLevel: 1
   MinDistance: 5.8069596
   MaxDistance: 500
