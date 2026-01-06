@@ -9,7 +9,7 @@ public class BrokenObjectScript : MonoBehaviour
     public Material OrangeMat;
     public Material RedMat;
 
-    public AudioClip BIP;
+    public AudioClip bipSound;
     public AudioSource bipSource;
     
     public DisplayError displayError;
@@ -36,7 +36,7 @@ public class BrokenObjectScript : MonoBehaviour
     
     void Start()
     {
-        bipSource.clip = BIP;
+        bipSource.clip = bipSound;
         
         cameraLightRenderer.material = GreenMat;
         rythmLightRenderer.material = GreenMat;

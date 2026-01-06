@@ -7,32 +7,23 @@ using Random = UnityEngine.Random;
 public class OfficeEvent : MonoBehaviour
 {
 
-    public SceneChanger instance;
+    public MusicManager musicManager;
     
     [Header("Lights part")]
     public Light officeLight;
     public GameObject leftLight;
     public GameObject rightLight;
     public GameObject midleLight;
-    
-    /*
-    [Header("Jumpscare part")]
-    public GameObject pictureInWorld;
-    public bool animInPlay;
-    public bool jumpscareActive;
-    public Animator anim;
-    */
-    
-    [Header("Sound Source")] 
-    public AudioSource musiqueSource;
-    public AudioSource soundEffectSource;
 
     [Header("Sound Clip")] 
     public AudioClip musicDeFond;
     public AudioClip lightFlicker;
+
+    public AudioSource MusiqueSource;
     
     
     private bool isFlickering = false;
+    private float CheckFlickering = 0;
 
     private void Start()
     {
@@ -45,16 +36,33 @@ public class OfficeEvent : MonoBehaviour
         midleLight.SetActive(false);
         
         //Music
-        PlayMusic(musicDeFond,true);
-        
-        //Jumpscare
-        //pictureInWorld.SetActive(false);
-        //animInPlay = false;
+        musicManager.PlayMusic(MusiqueSource,musicDeFond,true);
         
     }
 
     private void Update()
     {
+
+        FlickeringCheck();
+        
+    }
+
+    private void FlickeringCheck()
+    {
+        if (!(Time.time - CheckFlickering < 0.1 ))
+        {
+            return;
+        }
+
+        CheckFlickering = Time.time;
+        
+        Flicker();
+
+    }
+
+    private void Flicker()
+    {
+        
         if (!isFlickering)
         {
             if (Random.Range(0f, 1f) < 0.0001f) // 0.1% de chance par frame
@@ -63,13 +71,12 @@ public class OfficeEvent : MonoBehaviour
             }
         }
         
-        
     }
 
     private IEnumerator FlickerCoroutine(int flickers)
     {
         isFlickering = true;
-        PlaySoundEffect(lightFlicker);
+        musicManager.PlaySoundEffect(lightFlicker);
         
         for (int i = 0; i < flickers; i++)
         {
@@ -82,62 +89,4 @@ public class OfficeEvent : MonoBehaviour
         yield return new WaitForSeconds(20f);
         isFlickering = false;
     }
-    
-    public void PlaySoundEffect(AudioClip soundEffect)
-    {
-        if (soundEffectSource == null) return;
-        if (soundEffectSource.loop)
-        {
-            soundEffectSource.loop = false;
-        }
-        soundEffectSource.clip = soundEffect;
-        soundEffectSource.Play();
-    }
-    
-    /*
-    public IEnumerator JumpscareAnimCorout()
-    {
-        jumpscareActive = true;
-        
-        pictureInWorld.SetActive(true);
-        
-        yield return StartCoroutine(FlickerCoroutine(20));
-        officeLight.enabled = false;
-        pictureInWorld.SetActive(false);
-        
-        yield return new WaitForSeconds(Random.Range(2f, 8f));
-        
-        animInPlay = false;
-        anim.SetTrigger("Jumpscare");
-        
-        yield return new WaitForSeconds(5.30f);
-        
-        instance.LoadDeathMenu();
-        
-        yield return new WaitForSeconds(20f);
-        
-        animInPlay = false;
-    }
-    */
-    
-    public void PlayMusic(AudioClip soundEffect,bool loop)
-    {
-        if (musiqueSource == null) return;
-        
-        musiqueSource.loop = loop;
-        
-        musiqueSource.clip = soundEffect;
-        
-        musiqueSource.Play();
-    }
-    
-    /*
-    void OnCollisionEnter(Collision collision)
-    {
-        if(collision.gameObject.CompareTag("Ennemy") && !animInPlay)
-        {
-            StartCoroutine(JumpscareAnimCorout());
-        }
-    }
-    */
 }

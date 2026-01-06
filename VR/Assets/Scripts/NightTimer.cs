@@ -33,25 +33,18 @@ public class NightTimer : MonoBehaviour
             StartCoroutine(DecreaseTimeCorout());
         }
 
-        spotLight.intensity = startIntensity * (currentTime / 100);
+        CheckTime();
         
-        if (currentTime <= 0f)
-        {
-            SceneManager.LoadScene(0);
-        }
+        LightIntensity();
+
 
         if (!hasBeenDeactivated && Mathf.Approximately(currentTime, nightDurationInSeconds - 60f))
         {
-            foreach (var VARIABLE in tutorialText)
-            {
-                VARIABLE.SetActive(false);
-            }
-
-            hasBeenDeactivated = true;
+            DeactivateTuto();
         }
         
     }
-
+    
     IEnumerator DecreaseTimeCorout()
     {
 
@@ -62,4 +55,32 @@ public class NightTimer : MonoBehaviour
         timerText.text = $"{currentTime}";
 
     }
+    
+    public void CheckTime()
+    {
+        if (currentTime <= 0f)
+        {
+            SceneManager.LoadScene(3);
+        }
+    }
+
+    public void LightIntensity()
+    {
+        
+        spotLight.intensity = startIntensity * (currentTime / 100);
+        
+    }
+
+    public void DeactivateTuto()
+    {
+        foreach (var VARIABLE in tutorialText)
+        {
+            VARIABLE.SetActive(false);
+        }
+
+        hasBeenDeactivated = true;
+        
+    }
+
+    
 }
