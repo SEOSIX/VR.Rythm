@@ -79,7 +79,7 @@ public class TutoManager : MonoBehaviour
 
     private IEnumerator WaitSomeSeconds()
     {
-        yield return new WaitForSeconds(.1f);
+        yield return new WaitForSeconds(1.1f);
         parent.SetActive(false);
     }
 }

@@ -30,6 +30,8 @@ namespace DefaultNamespace
 
         private List<RectTransform>[] activeImages;
         private Dictionary<RectTransform, float> customSpeeds = new Dictionary<RectTransform, float>();
+        
+        private List<FallingImage> imagesInTrigger = new List<FallingImage>();
 
         private bool allCorrect = true;
         private bool hasMissed = false;
@@ -209,8 +211,6 @@ namespace DefaultNamespace
             }
         }
 
-        private List<FallingImage> imagesInTrigger = new List<FallingImage>();
-
         private void OnObjectTriggered(GameObject obj)
         {
             FallingImage fi = obj.GetComponent<FallingImage>();
@@ -237,6 +237,11 @@ namespace DefaultNamespace
         
         private void CheckButtonPress(int buttonType)
         {
+            if (imagesInTrigger.Count == 0)
+            {
+                FailInput();
+                return;
+            }
             for (int i = imagesInTrigger.Count - 1; i >= 0; i--)
             {
                 FallingImage fi = imagesInTrigger[i];
@@ -245,43 +250,28 @@ namespace DefaultNamespace
                     imagesInTrigger.RemoveAt(i);
                     continue;
                 }
-
-                if (fi.spawnIndex != buttonType)
-                    continue;
-
-                RectTransform rect = fi.GetComponent<RectTransform>();
-                
-                if (fi.imageType == buttonType)
+                if (fi.spawnIndex == buttonType && fi.imageType == buttonType)
                 {
                     SoundManager.PlaySound(SoundType.CORRECTRYTHM);
                     SoundManager.IncreasePitch();
+
+                    RectTransform rect = fi.GetComponent<RectTransform>();
                     imagesInTrigger.RemoveAt(i);
                     RemoveRectFromActiveImages(rect);
-                    if (customSpeeds.ContainsKey(rect))
-                        customSpeeds.Remove(rect);
+                    customSpeeds.Remove(rect);
                     Destroy(fi.gameObject);
 
                     allCorrect = true;
+
                     if (AreAllPatternsCleared())
                         IsCorrect();
 
                     return;
                 }
-                SoundManager.ResetPitch();
-                imagesInTrigger.RemoveAt(i);
-                RemoveRectFromActiveImages(rect);
-                if (customSpeeds.ContainsKey(rect))
-                    customSpeeds.Remove(rect);
-                
-                Destroy(fi.gameObject);
-
-                if (AreAllPatternsCleared())
-                {
-                    IsCorrect();
-                }
-                allCorrect = false;
             }
+            FailInput();
         }
+
 
         private void RemoveRectFromActiveImages(RectTransform rect)
         {
@@ -293,6 +283,36 @@ namespace DefaultNamespace
                     return;
             }
         }
+        
+        private void FailInput()
+        {
+            SoundManager.ResetPitch();
+            allCorrect = false;
+            hasMissed = true;
+
+            ClearAllSpawnedImages();
+            StartCoroutine(FadeImageColor(detect, Color.black, Color.red, 1f));
+        }
+        public void ClearAllSpawnedImages()
+        {
+            for (int i = 0; i < activeImages.Length; i++)
+            {
+                for (int j = activeImages[i].Count - 1; j >= 0; j--)
+                {
+                    RectTransform rect = activeImages[i][j];
+                    if (rect != null)
+                        Destroy(rect.gameObject);
+                }
+
+                activeImages[i].Clear();
+            }
+            imagesInTrigger.Clear();
+            customSpeeds.Clear();
+            hasMissed = false;
+            allCorrect = true;
+            StopAllCoroutines();
+        }
+
 
         public bool AreAllPatternsCleared()
         {

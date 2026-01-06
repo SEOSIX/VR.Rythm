@@ -6197,8 +6197,8 @@ MonoBehaviour:
   CameraIsBroke: 0
   PanelDisplayIsBroke: 0
   Door: 0
-  baseTimeToDisplayCamera: 5000
-  timeToDisplayCamera: 5000
+  baseTimeToDisplayCamera: 1000
+  timeToDisplayCamera: 1000
   cameraCanvasDisplay: {fileID: 2092758169}
   TimeDisplay: {fileID: 2092758168}
   baseNumberUsageRythmActivator: 5
@@ -13527,7 +13527,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7731983878072267512, guid: ec5687f7ae6f3eb4b812bf63ad6265cc, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.435
+      value: -1.4381
       objectReference: {fileID: 0}
     - target: {fileID: 7731983878072267512, guid: ec5687f7ae6f3eb4b812bf63ad6265cc, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -13535,7 +13535,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7731983878072267512, guid: ec5687f7ae6f3eb4b812bf63ad6265cc, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.654
+      value: 0.658
       objectReference: {fileID: 0}
     - target: {fileID: 8008279978184957347, guid: ec5687f7ae6f3eb4b812bf63ad6265cc, type: 3}
       propertyPath: m_Camera

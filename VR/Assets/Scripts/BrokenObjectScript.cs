@@ -22,7 +22,6 @@ public class BrokenObjectScript : MonoBehaviour
     
     [Header("Link Camera")] 
     public GameObject cameraCrash;
-    public GameObject cameraDisplay;
     private bool fixingCameraCoroutIsRunning = false;
     
     [Header("Link Rythm Panel")] 
@@ -59,19 +58,17 @@ public class BrokenObjectScript : MonoBehaviour
     {
         if (isCameraBroke && fixingCameraCoroutIsRunning)
         {
-            cameraDisplay.SetActive(false);
-            cameraCrash.SetActive(true);
+            StartCoroutine(CameraCrashCoroutine());
+            
             cameraLightRenderer.material = OrangeMat;
         }
         else if (isCameraBroke)
         {
-            cameraDisplay.SetActive(false);
             cameraCrash.SetActive(true);
             cameraLightRenderer.material = RedMat;
         }
         else
         {
-            cameraDisplay.SetActive(true);
             cameraCrash.SetActive(false);
             cameraLightRenderer.material = GreenMat;
         }
@@ -192,5 +189,10 @@ public class BrokenObjectScript : MonoBehaviour
             fillingBar.value = 0;
         }
 
+        IEnumerator CameraCrashCoroutine()
+        {
+            yield return new WaitForSeconds(2f);
+            cameraCrash.SetActive(true);
+        }
     #endregion
 }
