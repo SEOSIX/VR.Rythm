@@ -14344,50 +14344,50 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2242138455287111094, guid: ec5687f7ae6f3eb4b812bf63ad6265cc, type: 3}
       propertyPath: 'areaTexte.Array.data[0]'
-      value: 'Bonsoir , merci d''avoir accepter l''offre d''emploie pour le poste
-        de garde de nuit  ! '
+      value: Bonsoir, merci d'avoir accepte l'offre d'emploi pour le poste de garde
+        de nuit !
       objectReference: {fileID: 0}
     - target: {fileID: 2242138455287111094, guid: ec5687f7ae6f3eb4b812bf63ad6265cc, type: 3}
       propertyPath: 'areaTexte.Array.data[1]'
-      value: Cet endroit n'est pas de derniere jeunesse et il est prevue de le demolire
-        . En attendant cela , fait de ton mieux pour que personne ne soit sur le
-        lieu a par toi evidemment
+      value: Cet endroit n'est pas de derniere jeunesse et il est prevu de le demolir.
+        En attendant cela, fais de ton mieux pour que personne ne soit sur les lieux
+        a part toi evidemment.
       objectReference: {fileID: 0}
     - target: {fileID: 2242138455287111094, guid: ec5687f7ae6f3eb4b812bf63ad6265cc, type: 3}
       propertyPath: 'areaTexte.Array.data[2]'
-      value: Tu commence a minuit , et tu termine a 6h ! Alors courage et ne t'endors
+      value: Tu commences a minuit, et tu termines a 6h ! Alors courage et ne t'endors
         pas !
       objectReference: {fileID: 0}
     - target: {fileID: 2242138455287111094, guid: ec5687f7ae6f3eb4b812bf63ad6265cc, type: 3}
       propertyPath: 'areaTexte.Array.data[3]'
-      value: Si il y a des intrus sur le site tu peux les stope avec les porte de
-        securiter sur le chemin .
+      value: S'il y a des intrus sur le site, tu peux les stopper avec les portes
+        de securite sur le chemin.
       objectReference: {fileID: 0}
     - target: {fileID: 2242138455287111094, guid: ec5687f7ae6f3eb4b812bf63ad6265cc, type: 3}
       propertyPath: 'areaTexte.Array.data[4]'
-      value: "A toi de bien activer les portes en cliquant sur les carre de ton \xE9cran
-        pour empecher quiconque de t'approcher"
+      value: A toi de bien activer les portes en cliquant sur les carres de ton ecran
+        pour empecher quiconque de t'approcher.
       objectReference: {fileID: 0}
     - target: {fileID: 2242138455287111094, guid: ec5687f7ae6f3eb4b812bf63ad6265cc, type: 3}
       propertyPath: 'areaTexte.Array.data[5]'
-      value: 'Si ils continue malgres tout et s''approche trop pres du bureau tu
-        peux les faire fuir grace au bouton de l''alarme sur ta porte '
+      value: S'ils continuent malgre tout et s'approchent trop pres du bureau, tu
+        peux les faire fuir grace au bouton de l'alarme sur ta porte.
       objectReference: {fileID: 0}
     - target: {fileID: 2242138455287111094, guid: ec5687f7ae6f3eb4b812bf63ad6265cc, type: 3}
       propertyPath: 'areaTexte.Array.data[6]'
-      value: "Si l'un de t'es ecran n'a plus de batterie et qu'il gr\xE9sille n'hesite
-        pas a te retourner et a redemarr\xE9 le fusible du tableau electrique derriere
-        toi ..."
+      value: Si l'un de tes ecrans n'a plus de batterie et qu'il gresille, n'hesite
+        pas a te retourner et a redemarrer le fusible du tableau electrique derriere
+        toi...
       objectReference: {fileID: 0}
     - target: {fileID: 2242138455287111094, guid: ec5687f7ae6f3eb4b812bf63ad6265cc, type: 3}
       propertyPath: 'areaTexte.Array.data[7]'
-      value: "tout ce qui est cass\xE9 sera indiquer par une LED de couleur rouge
-        juste au dessus du bouton dans le generateur ."
+      value: Tout ce qui est casse sera indique par une LED de couleur rouge juste
+        au-dessus du bouton dans le generateur.
       objectReference: {fileID: 0}
     - target: {fileID: 2242138455287111094, guid: ec5687f7ae6f3eb4b812bf63ad6265cc, type: 3}
       propertyPath: 'areaTexte.Array.data[8]'
-      value: Une derniere chose si jaimais tu a trop peur je t'ai laisser une lampe
-        de poche sur le bureau tu peux t'en servir a ta guise !
+      value: Une derniere chose si jamais tu as trop peur, je t'ai laisse une lampe
+        de poche sur le bureau, tu peux t'en servir a ta guise !
       objectReference: {fileID: 0}
     - target: {fileID: 2242138455287111094, guid: ec5687f7ae6f3eb4b812bf63ad6265cc, type: 3}
       propertyPath: 'areaTexte.Array.data[9]'
