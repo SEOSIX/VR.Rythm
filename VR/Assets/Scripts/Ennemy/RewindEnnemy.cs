@@ -18,7 +18,7 @@ public class RewindEnnemy : MonoBehaviour
     [SerializeField] private GameObject startPoint1;
     
 
-    public void GoBack()
+    private void GoBack()
     {
         ennemyScript.ReturnFromStart(startPoint1);
     }
