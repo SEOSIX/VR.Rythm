@@ -655,7 +655,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 2
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -1460,12 +1460,41 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 6704020b68f7d7241b994e077474e486, type: 3}
       insertIndex: -1
       addedObject: {fileID: 309302094}
+    - targetCorrespondingSourceObject: {fileID: -4111973178110737598, guid: 6704020b68f7d7241b994e077474e486, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 51617875}
   m_SourcePrefab: {fileID: 100100000, guid: 6704020b68f7d7241b994e077474e486, type: 3}
 --- !u!1 &51617873 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 6704020b68f7d7241b994e077474e486, type: 3}
   m_PrefabInstance: {fileID: 51617872}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &51617874 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -4111973178110737598, guid: 6704020b68f7d7241b994e077474e486, type: 3}
+  m_PrefabInstance: {fileID: 51617872}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &51617875
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 51617874}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 19.99078, y: 4.586955, z: 10.524488}
+  m_Center: {x: 0.000009536743, y: -0.00000047683716, z: 0.000005722046}
 --- !u!1001 &62985334
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2325,7 +2354,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 2
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -2910,6 +2939,10 @@ PrefabInstance:
     - target: {fileID: 4244323958450376791, guid: 6eb3b7ce2f8b0b44da9215e3dceb4319, type: 3}
       propertyPath: m_Intensity
       value: 1.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4244323958450376791, guid: 6eb3b7ce2f8b0b44da9215e3dceb4319, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4426456065056236254, guid: 6eb3b7ce2f8b0b44da9215e3dceb4319, type: 3}
       propertyPath: m_Name
@@ -3752,7 +3785,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 2
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -5007,7 +5040,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RewindEnnemy
   ennemyScript: {fileID: 469718239}
   agent: {fileID: 469718244}
-  monsterMusique: {fileID: 1426103853}
   startPoint1: {fileID: 1317177910}
 --- !u!1 &473383186
 GameObject:
@@ -5920,7 +5952,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 2
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -7145,14 +7177,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2eec07d0700ac942ab51d48de3b7ec6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  musicManager: {fileID: 1627933690}
+  instance: {fileID: 0}
   officeLight: {fileID: 163209226}
   leftLight: {fileID: 35773167}
   rightLight: {fileID: 35773167}
   midleLight: {fileID: 35773167}
+  musiqueSource: {fileID: 0}
+  soundEffectSource: {fileID: 0}
   musicDeFond: {fileID: 8300000, guid: fc65b64105626a740bed5a9cece30ed7, type: 3}
   lightFlicker: {fileID: 8300000, guid: eebe52d3d4df7124ab9b2b6508170260, type: 3}
-  MusiqueSource: {fileID: 98175677}
 --- !u!4 &685401761
 Transform:
   m_ObjectHideFlags: 0
@@ -11672,7 +11705,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 2
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -12997,7 +13030,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 2
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
