@@ -68,10 +68,10 @@ public class DisplayError : MonoBehaviour
     }
 
 
-    public void DecreaseUsageRythms(int usages)
+    public void DecreaseUsageRythms()
     {
-        usages --;
-        if (usages <= 0)
+        numberUsageRythmActivator --;
+        if (numberUsageRythmActivator <= 0)
         {
             //typeError = ErrorType.PanelDisplay;
             PanelDisplayIsBroke = true;

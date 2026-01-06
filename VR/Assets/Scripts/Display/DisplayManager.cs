@@ -336,14 +336,14 @@ namespace DefaultNamespace
                 SoundManager.ResetPitch();
                 OnAllPatternsCleared?.Invoke();
                 StartCoroutine(FadeImageColor(detect, Color.black, Color.green, 1f));
-                DisplayError.instance.DecreaseUsageRythms(DisplayError.instance.numberUsageRythmActivator);
+                DisplayError.instance.DecreaseUsageRythms();
 
             }
             else
             {
                 SoundManager.ResetPitch();
                 StartCoroutine(FadeImageColor(detect, Color.black, Color.red, 1f));
-                DisplayError.instance.DecreaseUsageRythms(DisplayError.instance.numberUsageRythmActivator);
+                DisplayError.instance.DecreaseUsageRythms();
             }
         }
         
