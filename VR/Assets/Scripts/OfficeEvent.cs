@@ -18,6 +18,8 @@ public class OfficeEvent : MonoBehaviour
     [Header("Sound Clip")] 
     public AudioClip musicDeFond;
     public AudioClip lightFlicker;
+
+    public AudioSource MusiqueSource;
     
     
     private bool isFlickering = false;
@@ -34,7 +36,7 @@ public class OfficeEvent : MonoBehaviour
         midleLight.SetActive(false);
         
         //Music
-        PlayMusic(musicDeFond,true);
+        musicManager.PlayMusic(MusiqueSource,musicDeFond,true);
         
     }
 
@@ -74,7 +76,7 @@ public class OfficeEvent : MonoBehaviour
     private IEnumerator FlickerCoroutine(int flickers)
     {
         isFlickering = true;
-        PlaySoundEffect(lightFlicker);
+        musicManager.PlaySoundEffect(lightFlicker);
         
         for (int i = 0; i < flickers; i++)
         {
@@ -86,15 +88,5 @@ public class OfficeEvent : MonoBehaviour
         
         yield return new WaitForSeconds(20f);
         isFlickering = false;
-    }
-    
-    public void PlaySoundEffect(AudioClip soundEffect)
-    {
-        musicManager.PlaySoundEffect(soundEffect);
-    }
-    
-    public void PlayMusic(AudioClip sound,bool loop)
-    {
-        musicManager.PlayMusic(sound,loop);
     }
 }

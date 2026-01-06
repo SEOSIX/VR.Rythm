@@ -4,7 +4,6 @@ public class MusicManager : MonoBehaviour
 {
     
     [Header("Sound Source")] 
-    public AudioSource musiqueSource;
     public AudioSource soundEffectSource;
     
     public void PlaySoundEffect(AudioClip soundEffect)
@@ -18,15 +17,15 @@ public class MusicManager : MonoBehaviour
         soundEffectSource.Play();
     }
     
-    public void PlayMusic(AudioClip soundEffect,bool loop)
+    public void PlayMusic(AudioSource audioSource,AudioClip soundEffect,bool loop)
     {
-        if (musiqueSource == null) return;
+        if (audioSource == null) return;
         
-        musiqueSource.loop = loop;
+        audioSource.loop = loop;
         
-        musiqueSource.clip = soundEffect;
+        audioSource.clip = soundEffect;
         
-        musiqueSource.Play();
+        audioSource.Play();
     }
     
     

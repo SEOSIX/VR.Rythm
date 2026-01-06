@@ -5,10 +5,11 @@ using UnityEngine.AI;
 
 public class RewindEnnemy : MonoBehaviour
 {
-
+    
     public Ennemy ennemyScript;
     public NavMeshAgent agent;
     
+    public MonsterMusique monsterMusique;
     
     //General
     private bool canRewindEnnemy = true;
@@ -27,6 +28,8 @@ public class RewindEnnemy : MonoBehaviour
         if (ennemyScript.inRewindZone1 && canRewindEnnemy)
         {
             GoBack();
+            monsterMusique.MonsterMusiqueSource.clip = monsterMusique.FarAudio;
+            monsterMusique.MonsterMusiqueSource.loop = true;
             StartCoroutine(Cooldown());
         }
         
