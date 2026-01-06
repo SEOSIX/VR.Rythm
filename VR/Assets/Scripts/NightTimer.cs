@@ -32,6 +32,7 @@ public class NightTimer : MonoBehaviour
     {
         currentTime = nightDurationInSeconds;
         startIntensity = spotLight.intensity;
+        timerText.text = $"{currentTime}";
     }
 
     void Update()
@@ -78,7 +79,7 @@ public class NightTimer : MonoBehaviour
     public void LightIntensity()
     {
         
-        spotLight.intensity = startIntensity * (currentTime / 100);
+        spotLight.intensity = startIntensity * (currentTime / 1000);
         
     }
 

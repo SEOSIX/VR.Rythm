@@ -33,10 +33,6 @@ public class TutoManager : MonoBehaviour
         buttonNext.onClick.AddListener(NextText);
     }
 
-    private void Update()
-    {
-        
-    }
     private void UpdateText()
     {
         text.maxVisibleCharacters = 0;
@@ -81,7 +77,7 @@ public class TutoManager : MonoBehaviour
 
     private IEnumerator WaitSomeSeconds()
     {
-        yield return new WaitForSeconds(1.1f);
-        parent.SetActive(false);
+        yield return new WaitForSeconds(2f);
+        parent.transform.localScale = Vector3.zero;
     }
 }
