@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -6,6 +7,8 @@ using UnityEngine.SceneManagement;
 
 public class NightTimer : MonoBehaviour
 {
+    public static NightTimer singleton { get; private set; }
+    
     public TMP_Text timerText;
     public Light spotLight;
 
@@ -13,12 +16,18 @@ public class NightTimer : MonoBehaviour
     public float nightDurationInSeconds = 360f;
 
     public float currentTime;
-    private bool canDecreaseTime = true;
+    public bool canDecreaseTime;
     private float startIntensity;
 
     public List<GameObject> tutorialText = new List<GameObject>();
     public bool hasBeenDeactivated = false;
-    
+
+
+    private void Awake()
+    {
+        singleton = this;
+    }
+
     void Start()
     {
         currentTime = nightDurationInSeconds;
@@ -32,9 +41,11 @@ public class NightTimer : MonoBehaviour
             canDecreaseTime = false;
             StartCoroutine(DecreaseTimeCorout());
         }
-
+        else
+        {
+            StopCoroutine(DecreaseTimeCorout());
+        }
         CheckTime();
-        
         LightIntensity();
 
 
