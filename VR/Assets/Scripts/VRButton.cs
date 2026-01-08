@@ -23,7 +23,7 @@ public class VRButton : MonoBehaviour
         {
             Renderer buttonColor = button.GetComponent<Renderer>();
             
-            buttonColor.material.color = Color.blue;
+            buttonColor.material.color = Color.cyan;
             presser = other.gameObject;
             onPress.Invoke();
             Ispressed = true;
@@ -38,7 +38,7 @@ public class VRButton : MonoBehaviour
         {
             Ispressed = false;
             Renderer buttonColor = button.GetComponent<Renderer>();
-            buttonColor.material.color = Color.white;
+            buttonColor.material.color = Color.green;
         }
     }
 }

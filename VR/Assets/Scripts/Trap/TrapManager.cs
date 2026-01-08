@@ -30,6 +30,7 @@ namespace DefaultNamespace
 
         public void WaitForActivating(int i)
         {
+            startRythmutton.onClick.RemoveAllListeners();
             if (isPressed)
             {
                 startRythmutton.gameObject.SetActive(true);

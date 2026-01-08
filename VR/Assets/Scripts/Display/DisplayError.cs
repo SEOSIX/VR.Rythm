@@ -22,6 +22,7 @@ public class DisplayError : MonoBehaviour
     [Header("Rhythm Settings")]
     public int baseNumberUsageRythmActivator; 
     public int numberUsageRythmActivator;
+    public bool inTuto;
     
 
     private void Awake()
@@ -32,7 +33,8 @@ public class DisplayError : MonoBehaviour
     private void Start()
     {
         //typeError = ErrorType.none;
-        baseTimeToDisplayCamera = timeToDisplayCamera;
+        //baseTimeToDisplayCamera = timeToDisplayCamera;
+        timeToDisplayCamera = baseTimeToDisplayCamera;
         baseNumberUsageRythmActivator = numberUsageRythmActivator;
 
         if (TimeDisplay != null)
@@ -43,7 +45,7 @@ public class DisplayError : MonoBehaviour
     void Update()
     {
 		ReportBug();
-        if (Computer.isOpen)
+        if (Computer.isOpen && !inTuto)
         {
             Timer(timeToDisplayCamera, true);
         }
