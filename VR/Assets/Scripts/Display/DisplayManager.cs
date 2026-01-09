@@ -10,34 +10,35 @@ namespace DefaultNamespace
     public class DisplayManager : MonoBehaviour
     {
         public static DisplayManager instance { get; private set; }
+        
+        public event Action OnAllPatternsCleared;
+        public event Action OnPatternFailed; // La ligne qui manquait !
 
-        [Header("Spawn Points")] public RectTransform[] spawnPoints;
+        [Header("Spawn Points")] 
+        public RectTransform[] spawnPoints;
 
-        [Header("Prefabs par point (utilisé pour tests manuels)")]
+        [Header("Prefabs par point")]
         public GameObject[] imagePrefabsPoint1;
         public GameObject[] imagePrefabsPoint2;
         public GameObject[] imagePrefabsPoint3;
 
-        [Header("DetectIfCorrect")] 
+        [Header("Visual Feedback")] 
         [SerializeField] private Image detect;
 
-        [Header("Trigger & Movement")] 
+        [Header("Trigger & Movement Settings")] 
         public RectTransform triggerZone;
-
-        public Canvas canvasRythm;
         public float fallSpeed = 2f;
         public int maxPerSpawnPoint = 3;
 
+        // Private fields
         private List<RectTransform>[] activeImages;
         private Dictionary<RectTransform, float> customSpeeds = new Dictionary<RectTransform, float>();
-        
         private List<FallingImage> imagesInTrigger = new List<FallingImage>();
 
         private bool allCorrect = true;
         private bool hasMissed = false;
+
         public bool AllCorect => allCorrect;
-        
-        public event Action OnAllPatternsCleared;
 
         private void Awake()
         {
@@ -54,7 +55,7 @@ namespace DefaultNamespace
             CheckTriggers();
         }
 
-        #region === Affichage d’un pattern de Trap ===
+        #region === Spawning Logic ===
 
         public void DisplayCustomPattern(TrapDisplayPattern pattern)
         {
@@ -88,43 +89,38 @@ namespace DefaultNamespace
                     continue;
                 }
 
-                GameObject prefab = null;
-                switch (spawnIndex)
-                {
-                    case 0:
-                        prefab = imagePrefabsPoint1[Random.Range(0, imagePrefabsPoint1.Length)];
-                        break;
-                    case 1:
-                        prefab = imagePrefabsPoint2[Random.Range(0, imagePrefabsPoint2.Length)];
-                        break;
-                    case 2:
-                        prefab = imagePrefabsPoint3[Random.Range(0, imagePrefabsPoint3.Length)];
-                        break;
-                }
+                GameObject prefab = GetPrefabForPoint(spawnIndex);
+                if (prefab == null) { spawned++; continue; }
 
                 GameObject newImg = Instantiate(prefab, spawnPoints[spawnIndex]);
                 RectTransform rect = newImg.GetComponent<RectTransform>();
                 rect.anchoredPosition = Vector2.zero;
 
-
                 FallingImage fi = newImg.GetComponent<FallingImage>();
                 fi.spawnIndex = spawnIndex;
+                
                 activeImages[spawnIndex].Add(rect);
                 customSpeeds[rect] = customSpeed;
 
                 spawned++;
-
                 yield return new WaitForSeconds(interval);
             }
+        }
 
-            if (safety <= 0)
-                Debug.LogWarning("Boucle interrompue (trop d’objets actifs).");
+        private GameObject GetPrefabForPoint(int index)
+        {
+            switch (index)
+            {
+                case 0: return imagePrefabsPoint1[Random.Range(0, imagePrefabsPoint1.Length)];
+                case 1: return imagePrefabsPoint2[Random.Range(0, imagePrefabsPoint2.Length)];
+                case 2: return imagePrefabsPoint3[Random.Range(0, imagePrefabsPoint3.Length)];
+                default: return null;
+            }
         }
 
         #endregion
 
-
-        #region === Checking Triggers ===
+        #region === Movement & Trigger Checking ===
 
         private void MoveImagesDown()
         {
@@ -156,84 +152,45 @@ namespace DefaultNamespace
                 for (int j = activeImages[i].Count - 1; j >= 0; j--)
                 {
                     RectTransform img = activeImages[i][j];
-                    if (img == null)
-                    {
-                        activeImages[i].RemoveAt(j);
-                        continue;
-                    }
-
+                    if (img == null) { activeImages[i].RemoveAt(j); continue; }
 
                     Vector2 localPos;
-                    RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect,
-                        RectTransformUtility.WorldToScreenPoint(Camera.main, img.position),
-                        Camera.main,
-                        out localPos);
-
+                    RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect, RectTransformUtility.WorldToScreenPoint(Camera.main, img.position), Camera.main, out localPos);
+                    
                     Vector2 triggerLocalPos;
-                    RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect,
-                        RectTransformUtility.WorldToScreenPoint(Camera.main, triggerZone.position),
-                        Camera.main,
-                        out triggerLocalPos);
+                    RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect, RectTransformUtility.WorldToScreenPoint(Camera.main, triggerZone.position), Camera.main, out triggerLocalPos);
 
-                    float margin = 0.01f;
                     Vector2 triggerSize = triggerZone.rect.size;
-                    Rect triggerRect = new Rect(
-                        triggerLocalPos.x - triggerSize.x / 2f,
-                        triggerLocalPos.y - triggerSize.y / 2f + margin,
-                        triggerSize.x,
-                        triggerSize.y
-                    );
+                    Rect triggerRect = new Rect(triggerLocalPos.x - triggerSize.x / 2f, triggerLocalPos.y - triggerSize.y / 2f, triggerSize.x, triggerSize.y);
+                    
                     FallingImage fi = img.GetComponent<FallingImage>();
                     bool isInTrigger = triggerRect.Contains(localPos);
 
                     if (isInTrigger)
                     {
-                        if (!imagesInTrigger.Contains(fi))
-                        {
-                            imagesInTrigger.Add(fi);
-                            
-                            hasMissed = false;
-                        }
+                        if (!imagesInTrigger.Contains(fi)) imagesInTrigger.Add(fi);
                     }
                     else
                     {
-                        if (imagesInTrigger.Contains(fi))
+                        // Si la note sort par le bas du trigger
+                        float bottomOfTrigger = triggerLocalPos.y - (triggerSize.y / 2f);
+                        if (imagesInTrigger.Contains(fi) || localPos.y < bottomOfTrigger)
                         {
-                            imagesInTrigger.Remove(fi);
-                            RemoveRectFromActiveImages(img);
-                            customSpeeds.Remove(img);
-                            Destroy(img.gameObject);
-
-                            hasMissed = true;
+                            FailInput(); 
+                            return;
                         }
                     }
                 }
             }
         }
 
-        private void OnObjectTriggered(GameObject obj)
-        {
-            FallingImage fi = obj.GetComponent<FallingImage>();
-            if (fi != null && !imagesInTrigger.Contains(fi))
-            {
-                imagesInTrigger.Add(fi);
-            }
-        }
+        #endregion
 
-        public void Button1Press()
-        {
-            CheckButtonPress(0);
-        }
+        #region === Input Handling ===
 
-        public void Button2Press()
-        {
-            CheckButtonPress(1);
-        }
-
-        public void Button3Press()
-        {
-            CheckButtonPress(2);
-        }
+        public void Button1Press() => CheckButtonPress(0);
+        public void Button2Press() => CheckButtonPress(1);
+        public void Button3Press() => CheckButtonPress(2);
         
         private void CheckButtonPress(int buttonType)
         {
@@ -242,15 +199,13 @@ namespace DefaultNamespace
                 FailInput();
                 return;
             }
+
             for (int i = imagesInTrigger.Count - 1; i >= 0; i--)
             {
                 FallingImage fi = imagesInTrigger[i];
-                if (fi == null)
-                {
-                    imagesInTrigger.RemoveAt(i);
-                    continue;
-                }
-                if (fi.spawnIndex == buttonType && fi.imageType == buttonType)
+                if (fi == null) { imagesInTrigger.RemoveAt(i); continue; }
+
+                if (fi.spawnIndex == buttonType && (int)fi.imageType == buttonType)
                 {
                     SoundManager.PlaySound(SoundType.CORRECTRYTHM);
                     SoundManager.IncreasePitch();
@@ -262,48 +217,42 @@ namespace DefaultNamespace
                     Destroy(fi.gameObject);
 
                     allCorrect = true;
-
-                    if (AreAllPatternsCleared())
-                        IsCorrect();
-
+                    if (AreAllPatternsCleared()) IsCorrect();
                     return;
                 }
             }
             FailInput();
         }
 
+        #endregion
 
-        private void RemoveRectFromActiveImages(RectTransform rect)
-        {
-            if (rect == null) return;
+        #region === Game State Logic ===
 
-            for (int k = 0; k < activeImages.Length; k++)
-            {
-                if (activeImages[k].Remove(rect))
-                    return;
-            }
-        }
-        
         private void FailInput()
         {
             SoundManager.ResetPitch();
             allCorrect = false;
             hasMissed = true;
-
+            
+            // Nettoyage du bouton Start
+            if (TrapManager.instance != null)
+                TrapManager.instance.ForceResetButton();
+            
+            // Notification aux pièges pour annuler l'activation (isActivating = false)
+            OnPatternFailed?.Invoke();
+            
             ClearAllSpawnedImages();
             StartCoroutine(FadeImageColor(detect, Color.black, Color.red, 1f));
         }
+
         public void ClearAllSpawnedImages()
         {
             for (int i = 0; i < activeImages.Length; i++)
             {
                 for (int j = activeImages[i].Count - 1; j >= 0; j--)
                 {
-                    RectTransform rect = activeImages[i][j];
-                    if (rect != null)
-                        Destroy(rect.gameObject);
+                    if (activeImages[i][j] != null) Destroy(activeImages[i][j].gameObject);
                 }
-
                 activeImages[i].Clear();
             }
             imagesInTrigger.Clear();
@@ -313,19 +262,13 @@ namespace DefaultNamespace
             StopAllCoroutines();
         }
 
-
         public bool AreAllPatternsCleared()
         {
-            if (hasMissed)
-            {
-                return false;
-            }
+            if (hasMissed) return false;
             for (int i = 0; i < activeImages.Length; i++)
             {
-                if (activeImages[i].Count > 0)
-                    return false;
+                if (activeImages[i].Count > 0) return false;
             }
-
             return imagesInTrigger.Count == 0;
         }
         
@@ -337,16 +280,22 @@ namespace DefaultNamespace
                 OnAllPatternsCleared?.Invoke();
                 StartCoroutine(FadeImageColor(detect, Color.black, Color.green, 1f));
                 DisplayError.instance.DecreaseUsageRythms();
-
             }
             else
             {
-                SoundManager.ResetPitch();
-                StartCoroutine(FadeImageColor(detect, Color.black, Color.red, 1f));
-                DisplayError.instance.DecreaseUsageRythms();
+                FailInput();
             }
         }
         
+        private void RemoveRectFromActiveImages(RectTransform rect)
+        {
+            if (rect == null) return;
+            for (int k = 0; k < activeImages.Length; k++)
+            {
+                if (activeImages[k].Remove(rect)) return;
+            }
+        }
+
         IEnumerator FadeImageColor(Image img, Color fromColor, Color toColor, float time)
         {
             float elapsed = 0f;
@@ -363,7 +312,6 @@ namespace DefaultNamespace
                 img.color = Color.Lerp(toColor, fromColor, elapsed / time);
                 yield return null;
             }
-
             img.color = fromColor;
         }
 

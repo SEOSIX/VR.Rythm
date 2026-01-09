@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -16,12 +15,11 @@ public class NightTimer : MonoBehaviour
     public float nightDurationInSeconds = 360f;
 
     public float currentTime;
-    public bool canDecreaseTime;
+    public bool isTimerRunning; 
     private float startIntensity;
 
     public List<GameObject> tutorialText = new List<GameObject>();
     public bool hasBeenDeactivated = false;
-
 
     private void Awake()
     {
@@ -32,40 +30,31 @@ public class NightTimer : MonoBehaviour
     {
         currentTime = nightDurationInSeconds;
         startIntensity = spotLight.intensity;
-        timerText.text = $"{currentTime}";
+        UpdateUI();
     }
 
     void Update()
     {
-        if (canDecreaseTime)
+        if (isTimerRunning)
         {
-            canDecreaseTime = false;
-            StartCoroutine(DecreaseTimeCorout());
-        }
-        else
-        {
-            StopCoroutine(DecreaseTimeCorout());
-        }
-        CheckTime();
-        LightIntensity();
+            
+            currentTime -= Time.deltaTime;
 
+            if (currentTime <= 0f)
+            {
+                currentTime = 0f;
+                CheckTime();
+            }
 
-        if (!hasBeenDeactivated && Mathf.Approximately(currentTime, nightDurationInSeconds - 60f))
-        {
-            DeactivateTuto();
+            UpdateUI();
+            CheckTutorial();
         }
-        
     }
-    
-    IEnumerator DecreaseTimeCorout()
+
+    private void UpdateUI()
     {
-
-        yield return new WaitForSeconds(1f);
-
-        currentTime -= 1;
-        canDecreaseTime = true;
-        timerText.text = $"{currentTime}";
-
+        // On utilise Mathf.CeilToInt pour afficher "10" tant qu'on est à 9.1 par exemple
+        timerText.text = Mathf.CeilToInt(currentTime).ToString();
     }
     
     public void CheckTime()
@@ -76,23 +65,20 @@ public class NightTimer : MonoBehaviour
         }
     }
 
-    public void LightIntensity()
+    private void CheckTutorial()
     {
-        
-        spotLight.intensity = startIntensity * (currentTime / 1000);
-        
+        if (!hasBeenDeactivated && currentTime <= (nightDurationInSeconds - 60f))
+        {
+            DeactivateTuto();
+        }
     }
 
     public void DeactivateTuto()
     {
-        foreach (var VARIABLE in tutorialText)
+        foreach (var obj in tutorialText)
         {
-            VARIABLE.SetActive(false);
+            if(obj != null) obj.SetActive(false);
         }
-
         hasBeenDeactivated = true;
-        
     }
-
-    
 }

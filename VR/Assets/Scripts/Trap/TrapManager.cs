@@ -40,6 +40,16 @@ namespace DefaultNamespace
             tryActivateTrap = true;
         }
         
+        public void ForceResetButton()
+        {
+            if (startRythmutton != null)
+            {
+                startRythmutton.onClick.RemoveAllListeners();
+                
+                startRythmutton.gameObject.SetActive(false); // Enleve le button start de rythm
+                
+            }
+        }
         
         public void ActivateTrap(int index)
         {

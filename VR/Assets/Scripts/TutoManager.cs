@@ -29,7 +29,9 @@ public class TutoManager : MonoBehaviour
             enemy.SetActive(false);
             DisplayError.instance.inTuto = true;
         }
-        NightTimer.singleton.canDecreaseTime = false;
+        
+        NightTimer.singleton.isTimerRunning = false; 
+    
         UpdateText();
         buttonNext.onClick.AddListener(NextText);
     }
@@ -60,7 +62,9 @@ public class TutoManager : MonoBehaviour
             {
                 enemy.SetActive(true);
             }
-            NightTimer.singleton.canDecreaseTime = true;
+            
+            NightTimer.singleton.isTimerRunning = true; 
+        
             DisplayError.instance.inTuto = false;
             return;
         }
